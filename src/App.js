@@ -6,39 +6,40 @@ import BeatLoader from "react-spinners/BeatLoader";
 import EachPokemon from './EachPokemon';
 
 function App() {
-  const [pokemons, setPokemons] = useState([]);
-  const [currentPageUrl, setCurrentPageUrl] = useState("https://pokeapi.co/api/v2/pokemon")
-  const [nextPageUrl, setNextPageUrl] = useState()
-  const [prevPageUrl, setPrevPageUrl] = useState()
-  const [loading, setLoading] = useState(true)
+  // const [pokemons, setPokemons] = useState([]);
+  // const [currentPageUrl, setCurrentPageUrl] = useState("https://pokeapi.co/api/v2/pokemon")
+  // const [nextPageUrl, setNextPageUrl] = useState()
+  // const [prevPageUrl, setPrevPageUrl] = useState()
+  // const [loading, setLoading] = useState(true)
 
 
-  useEffect(() => {
-    setLoading(true);
-      const fetchData = async () => {
-      const res = await fetch(currentPageUrl)
-      const data = await res.json();
-      setPokemons(data.results)
-      setNextPageUrl(data.next)
-      setPrevPageUrl(data.previous)
-      // setPokemons(data.results.map(p => p.className))
-      setLoading(false);
-      }
-      fetchData();
-  }, [currentPageUrl])
+  // useEffect(() => {
+  //   setLoading(true);
+  //     const fetchData = async () => {
+  //     const res = await fetch(currentPageUrl)
+  //     const data = await res.json();
+  //     setPokemons(data.results)
+  //     setNextPageUrl(data.next)
+  //     setPrevPageUrl(data.previous)
+  //     // setPokemons(data.results.map(p => p.className))
+  //     setLoading(false);
+  //     }
+  //     fetchData();
+  // }, [currentPageUrl])
   
-  console.log("pokemons:", pokemons);
-  function gotoNextPage() {
-    setCurrentPageUrl(nextPageUrl)
-  }
+  // console.log("pokemons:", pokemons);
+  // function gotoNextPage() {
+  //   setCurrentPageUrl(nextPageUrl)
+  // }
 
-  function gotoPrevPage() {
-    setCurrentPageUrl(prevPageUrl)
-  }
+  // function gotoPrevPage() {
+  //   setCurrentPageUrl(prevPageUrl)
+  // }
 
   return (
     <div className="App">
-  {/* spiner */}
+      <EachPokemon /> 
+  {/* spiner
       {loading ? (<BeatLoader
         color="#f5a214"
         loading={loading}
@@ -60,7 +61,7 @@ function App() {
   <Pagination
         gotoNextPage={nextPageUrl ? gotoNextPage : null}
         gotoPrevPage={prevPageUrl ? gotoPrevPage : null}
-  />
+  /> */}
     </div>
   );
 }
