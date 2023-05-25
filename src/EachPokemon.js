@@ -1,4 +1,3 @@
-import { SignalCellularNodata } from '@mui/icons-material';
 import { useState, useEffect } from 'react';
 
 export default function EachPokemon() {
@@ -21,18 +20,16 @@ export default function EachPokemon() {
 
                 }
                 console.log("object:", pokemonObj )
-                const newArr = [...pokemon,pokemonObj]
-                console.log("new array:", newArr)
-                setPokemon(newArr); 
-                // console.log("useState pokemone:", pokemon);
-
-
+                // let newArr = [...pokemon,pokemonObj]
+                // console.log("new array:", newArr)
+                // setPokemon(newArr); 
+                setPokemon(oldValue => [...oldValue,pokemonObj]); 
 
                 // console.log("destructure item:", front_default)
 
                 }
         
-                for (let i = 1; i <= 10; i++) {
+                for (let i = 1; i <= 500; i++) {
                 const url = `https://pokeapi.co/api/v2/pokemon/${i}`;
                 await getData(url)    
             }
@@ -46,15 +43,15 @@ export default function EachPokemon() {
         fetchData();
 },[])
 
-pokemon.length>5 && console.log(pokemon)
+console.log(pokemon)
 
 console.log("point3:", pokemon)
 
     return (
         <div>
-            {pokemon?.map((singlepokemon)=>{
+            {/* {pokemon?.map((singlepokemon)=>{
                 <div>pokemon</div>
-            })}
+            })} */}
         </div>
     )
 
