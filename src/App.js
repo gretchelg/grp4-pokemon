@@ -1,9 +1,9 @@
-import './App.css';
-import Landingpage from './components/Landingpage';
-import { useState, useEffect } from 'react';
-import Pagination from './Pagination';
+import "./App.css";
+import Landingpage from "./components/Landingpage";
+import { useState, useEffect } from "react";
+import Pagination from "./Pagination";
 import BeatLoader from "react-spinners/BeatLoader";
-import EachPokemon from './EachPokemon';
+import EachPokemon from "./EachPokemon";
 
 function App() {
   // const [pokemons, setPokemons] = useState([]);
@@ -11,7 +11,6 @@ function App() {
   // const [nextPageUrl, setNextPageUrl] = useState()
   // const [prevPageUrl, setPrevPageUrl] = useState()
   // const [loading, setLoading] = useState(true)
-
 
   // useEffect(() => {
   //   setLoading(true);
@@ -26,7 +25,7 @@ function App() {
   //     }
   //     fetchData();
   // }, [currentPageUrl])
-  
+
   // console.log("pokemons:", pokemons);
   // function gotoNextPage() {
   //   setCurrentPageUrl(nextPageUrl)
@@ -38,8 +37,8 @@ function App() {
 
   return (
     <div className="App">
-      <EachPokemon /> 
-  {/* spiner
+      <EachPokemon />
+      {/* spiner
       {loading ? (<BeatLoader
         color="#f5a214"
         loading={loading}
