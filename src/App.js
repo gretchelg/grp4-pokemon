@@ -1,14 +1,12 @@
-import './App.css';
-import Navigation from './components/Navigation';
-import Registration from './components/Registration';
-import Login from './components/Login';
-import Gallery from './components/Gallery';
-import Profile from './components/Profile';
-import UserProfile from './components/UserProfile';
-
+import "./App.css";
+import Navigation from "./components/Navigation";
+import Registration from "./components/Registration";
+import Login from "./components/Login";
+import Gallery from "./components/Gallery";
+import Profile from "./components/Profile";
+import UserProfile from "./components/UserProfile";
 
 function App() {
-
   return (
     <div className="App">
       <Navigation />
@@ -17,7 +15,6 @@ function App() {
       <Gallery />
       <Profile />
       <UserProfile />
-
     </div>
   );
 }
