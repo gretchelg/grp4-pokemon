@@ -1,7 +1,7 @@
 import "./styles/Registration.css";
 import { useState, useContext } from "react";
 
-import { DataContext } from "../contexts/DataContext";
+import { DataContext } from "../contexts/DataContext.jsx";
 
 export default function Registration() {
   const { submitHandler, changeHandler } = useContext(DataContext);
