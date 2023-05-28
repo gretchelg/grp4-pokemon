@@ -1,9 +1,14 @@
+<<<<<<< Updated upstream
 import { createContext } from "react";
 import { useState } from "react";
+=======
+import { useState, useEffect, useContext, createContext } from "react";
+>>>>>>> Stashed changes
 
 export const DataContext = createContext();
 
 export default function DataContextProvider(props) {
+<<<<<<< Updated upstream
   // ===================================
   // store fetched Pokemons on Context
   // ===================================
@@ -37,13 +42,25 @@ export default function DataContextProvider(props) {
       .then((data) => console.log(data))
       .catch((error) => console.log(error));
   };
+=======
+  const [data, setData] = useState(true);
+
+  // ===================================
+  // store login sensor
+  // ===================================
+
+  const [isloggedIn, setLoggedIn] = useState(false);
+>>>>>>> Stashed changes
 
   return (
     <DataContext.Provider
       value={{
+<<<<<<< Updated upstream
         formData,
         changeHandler,
         submitHandler,
+=======
+>>>>>>> Stashed changes
         isloggedIn,
         data,
       }}
