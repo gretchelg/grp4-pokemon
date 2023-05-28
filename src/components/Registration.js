@@ -2,6 +2,7 @@ import "./styles/Registration.css";
 import { useState, useContext } from "react";
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import { DataContext } from "../contexts/DataContext.jsx";
 
 export default function Registration() {
@@ -10,6 +11,11 @@ export default function Registration() {
 import DataContext from "../contexts/DataContext";
 
 export default function Registration() {
+=======
+import DataContext from "../contexts/DataContext";
+
+export default function Registration() {
+>>>>>>> Stashed changes
   // ===================================
   // create Users Object and POST request
   // ===================================
@@ -38,6 +44,9 @@ export default function Registration() {
       .then((data) => setResMsg(data.msg))
       .catch((error) => console.log(error));
   };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
   return (
@@ -47,7 +56,11 @@ export default function Registration() {
       </div>
       <form onSubmit={submitHandler} className="reg_form">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <label for="reg_username">Create a username</label>
+=======
+        <label htmlFor="reg_username">Create a username</label>
+>>>>>>> Stashed changes
 =======
         <label htmlFor="reg_username">Create a username</label>
 >>>>>>> Stashed changes
@@ -60,7 +73,11 @@ export default function Registration() {
         />
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <label for="reg_email">Add your email</label>
+=======
+        <label htmlFor="reg_email">Add your email</label>
+>>>>>>> Stashed changes
 =======
         <label htmlFor="reg_email">Add your email</label>
 >>>>>>> Stashed changes
@@ -72,7 +89,11 @@ export default function Registration() {
         />
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <label for="reg_password">Create a username</label>
+=======
+        <label htmlFor="reg_password">Create a username</label>
+>>>>>>> Stashed changes
 =======
         <label htmlFor="reg_password">Create a username</label>
 >>>>>>> Stashed changes
@@ -85,6 +106,11 @@ export default function Registration() {
         />
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+        <div>{resMsg}</div>
+
+>>>>>>> Stashed changes
 =======
         <div>{resMsg}</div>
 
