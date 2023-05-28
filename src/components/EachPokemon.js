@@ -51,7 +51,7 @@ export default function EachPokemon() {
                 setPokemon(oldValue => [...oldValue,pokemonObj]); 
                 }
         
-                for (let i = 1; i <= 500; i++) {
+                for (let i = 1; i <= 5; i++) {
                 const url = `https://pokeapi.co/api/v2/pokemon/${i}`;
                 await getData(url)    
             }

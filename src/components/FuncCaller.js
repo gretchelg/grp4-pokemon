@@ -1,8 +1,8 @@
 // import { getAllPokemons } from '../components/Utils'
-import anObject from '../components/Utils'
+import anObject from './Utils'
 import { useState, useEffect } from 'react';
 
-export default function GalleryV2() {
+export default function FuncCaller() {
     const [pokemons, setPokemons] = useState([]);
 
     // useEffect(() => {
