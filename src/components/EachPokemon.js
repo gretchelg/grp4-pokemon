@@ -20,7 +20,7 @@ export default function EachPokemon() {
                 const res = await fetch(url);
                 const data = await res.json();
 
-                const moves = data.moves.map(({ move }) => ({
+                const moves = data.moves.slice(0, 3).map(({ move }) => ({
                     name: move.name,
                     url: move.url
                 }));
@@ -98,7 +98,8 @@ console.log("json_pokemon:", pokemon)
   // }
 
     return (
-        <div>{JSON.stringify(pokemon)}
+        <div>
+            {/* {JSON.stringify(pokemon)} */}
         {/* {pokemon?.map((singlepokemon)=>{
             <div>pokemon</div>
         })} */}
