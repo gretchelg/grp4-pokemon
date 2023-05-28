@@ -1,6 +1,10 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import { createContext } from "react";
 import { useState } from "react";
+=======
+import { useState, useEffect, useContext, createContext } from "react";
+>>>>>>> Stashed changes
 =======
 import { useState, useEffect, useContext, createContext } from "react";
 >>>>>>> Stashed changes
@@ -8,6 +12,7 @@ import { useState, useEffect, useContext, createContext } from "react";
 export const DataContext = createContext();
 
 export default function DataContextProvider(props) {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   // ===================================
   // store fetched Pokemons on Context
@@ -43,6 +48,8 @@ export default function DataContextProvider(props) {
       .catch((error) => console.log(error));
   };
 =======
+=======
+>>>>>>> Stashed changes
   const [data, setData] = useState(true);
 
   // ===================================
@@ -50,15 +57,21 @@ export default function DataContextProvider(props) {
   // ===================================
 
   const [isloggedIn, setLoggedIn] = useState(false);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
   return (
     <DataContext.Provider
       value={{
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         formData,
         changeHandler,
         submitHandler,
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
         isloggedIn,
