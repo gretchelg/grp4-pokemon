@@ -37,3 +37,44 @@
     transform: rotate(360deg);
   }
 }
+/* Login style css */
+body {
+  margin: 0;
+}
+.login_container {
+  display: flex;
+  flex-direction: column;
+  background-image: url(./img/background_01.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  font-size: 24px;
+}
+.login_form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.login_input {
+  border-radius: 50px;
+  width: 400px;
+  height: 70px;
+  border: 8px solid rgb(33, 90, 131);
+  padding-left: 1em;
+  display: block;
+  margin: 1em;
+}
+
+.login_button {
+  color: rgb(33, 90, 131);
+  font-weight: bold;
+  width: 200px;
+  height: 70px;
+  border-radius: 50px;
+  border: 8px solid rgb(33, 90, 131);
+}
+.login_input::placeholder {
+  color: rgb(136, 178, 208);
+}
