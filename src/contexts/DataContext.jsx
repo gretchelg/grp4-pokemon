@@ -9,19 +9,17 @@ export default function DataContextProvider(props) {
   const [data, setData] = useState(true);
 
   // ===================================
-  // store login sensor
+  // store Registered sensor
   // ===================================
 
-  const [isloggedIn, setLoggedIn] = useState(false);
+  const [isRegistered, setisRegistered] = useState(false);
+  console.log("Is registered:", isRegistered);
 
   return (
     <DataContext.Provider
       value={{
-        formData,
-        changeHandler,
-        submitHandler,
-
-        isloggedIn,
+        isRegistered,
+        setisRegistered,
         data,
       }}
     >

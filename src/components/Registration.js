@@ -1,9 +1,14 @@
 import "./styles/Registration.css";
+import "../../src/App.css";
 import { useState, useContext } from "react";
 
 import { DataContext } from "../contexts/DataContext.jsx";
 
 export default function Registration() {
+  const { setisRegistered, isRegistered } = useContext(DataContext);
+
+  const [regMsg, setRegMsg] = useState("");
+
   // ===================================
   // create Users Object and POST request
   // ===================================
@@ -12,8 +17,6 @@ export default function Registration() {
     email: "",
     password: "",
   });
-
-  const [resMsg, setResMsg] = useState(" ");
 
   const changeHandler = function (event) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -29,13 +32,16 @@ export default function Registration() {
       body: JSON.stringify(formData),
     })
       .then((response) => response.json())
-      .then((data) => setResMsg(data.msg))
+      .then((data) => {
+        setisRegistered(data.success);
+        setRegMsg(data.msg);
+      })
       .catch((error) => console.log(error));
   };
 
   return (
     <div className="reg_container">
-      <div className="reg_header">
+      <div className="header">
         <h2>Register</h2>
       </div>
       <form onSubmit={submitHandler} className="reg_form">
@@ -64,8 +70,9 @@ export default function Registration() {
           id="reg_password"
           required
         />
-        <div>{resMsg}</div>
+
         <button type="submit">Register</button>
+        <div className="reg_msg">{regMsg}</div>
       </form>
     </div>
   );
