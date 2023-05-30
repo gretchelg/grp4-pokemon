@@ -31,6 +31,8 @@ export default function DataContextProvider(props) {
         setPokemonData,
         isLoggedIn,
         userData,
+        setisLoggedIn,
+        setUserData,
       }}
     >
       {props.children}

@@ -62,7 +62,7 @@ export default function Registration() {
           name="email"
         />
 
-        <label htmlFor="reg_password">Create a username</label>
+        <label htmlFor="reg_password">Create a password</label>
         <input
           name="password"
           onChange={changeHandler}

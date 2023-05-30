@@ -12,7 +12,7 @@ import Landingpage from "./components/Landingpage";
 import Errorpage from "./components/Errorpage";
 
 function App() {
-  const { isRegistered } = useContext(DataContext);
+  const { isRegistered, isLoggedIn } = useContext(DataContext);
   return (
     <div className="App">
       {/* <Navigation /> */}
@@ -21,7 +21,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Landingpage />} />
         <Route path="/home" element={<Landingpage />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={
+            !isLoggedIn ? <Login /> : <Navigate replace to="/dashboard" />
+          }
+        />
         <Route
           path="/registration"
           element={
