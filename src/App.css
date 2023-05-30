@@ -85,6 +85,7 @@ body {
   font-size: 24px;
 }
 .login_form {
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -95,20 +96,31 @@ body {
   border-radius: 50px;
   width: 400px;
   height: 70px;
-  border: 8px solid rgb(33, 90, 131);
+  border: 8px solid var(--blue);
   padding-left: 1em;
   display: block;
-  margin: 1em;
+  margin: 0.7em;
 }
 
 .login_button {
   color: rgb(33, 90, 131);
   font-weight: bold;
-  width: 200px;
-  height: 70px;
+  width: 150px;
+  height: 50px;
   border-radius: 50px;
-  border: 8px solid rgb(33, 90, 131);
+  border: 6px solid var(--blue);
+  align-self: center;
+  margin: 1em;
 }
 .login_input::placeholder {
   color: rgb(136, 178, 208);
+}
+
+.login_signup > h2 {
+  font-size: 1.5rem;
+}
+
+.login_pokemon {
+  width: 400px;
+  margin: 0 auto;
 }

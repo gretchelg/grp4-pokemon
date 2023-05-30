@@ -1,50 +1,56 @@
-<<<<<<< HEAD
-import React, { useState } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 
-function Login() {
-  const [username, setuserName] = useState("");
-  const [password, setpassWord] = useState("");
+export default function Login() {
+  const [user_name, setUserName] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    e.pventDefault();
-    console.log(username);
+  const submitHandler = (e) => {
+    e.preventDefault();
+    fetch("http://localhost:4000/api/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_name,
+        password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
   };
+
   return (
-    <div>
-      <div className="login_container">
-        <img src="./img/Logo.png" alt="pokemon" />
-        <form className="login_form" onSubmit={handleSubmit}>
-          <input
-            className="login_input"
-            value={username}
-            onChange={(e) => setuserName(e.target.value)}
-            type="username"
-            placeholder="Username"
-          />
-          <input
-            className="login_input"
-            value={password}
-            onChange={(e) => setpassWord(e.target.value)}
-            type="text"
-            placeholder="Password"
-            name="password"
-          />
-          <h2>Sign Up</h2>
-          <button className="login_button" type="submit">
-            GO!
-          </button>
-        </form>
-        <button>Don't have an account? Register here!</button>
-      </div>
+    <div className="login_container">
+      <img
+        className="login_pokemon"
+        src="../../img/Logo.png"
+        alt="pokemon"
+      ></img>
+
+      <form onSubmit={submitHandler} className="login_form ">
+        <input
+          className="login_input"
+          onChange={(e) => setUserName(e.target.value)}
+          type="text"
+          value={user_name}
+          placeholder="username"
+        />
+        <input
+          className="login_input"
+          onChange={(e) => setUserName(e.target.value)}
+          type="text"
+          value={password}
+          placeholder="password"
+        />
+        <NavLink className="login_signup" to="/registration">
+          <h2>SIGN UP</h2>
+        </NavLink>
+      </form>
+      <button className="login_button">GO!</button>
     </div>
   );
 }
-
-export default Login;
-=======
-export default function Login() {
-    return (
-        <div>Login Page</div>
-    )
-}
->>>>>>> main
