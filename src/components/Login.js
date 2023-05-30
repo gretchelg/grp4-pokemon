@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState } from "react";
 
 function Login() {
@@ -41,10 +40,3 @@ function Login() {
 }
 
 export default Login;
-=======
-export default function Login() {
-    return (
-        <div>Login Page</div>
-    )
-}
->>>>>>> main
