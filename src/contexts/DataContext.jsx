@@ -6,21 +6,22 @@ export default function DataContextProvider(props) {
   // ===================================
   // store fetched Pokemons on Context
   // ===================================
-  const [data, setData] = useState(true);
+  const [pokemonData, setPokemonData] = useState();
 
   // ===================================
   // store Registered sensor
   // ===================================
 
   const [isRegistered, setisRegistered] = useState(false);
-  console.log("Is registered:", isRegistered);
+  // console.log("Is registered:", isRegistered);
 
   return (
     <DataContext.Provider
       value={{
         isRegistered,
         setisRegistered,
-        data,
+        pokemonData,
+        setPokemonData,
       }}
     >
       {props.children}

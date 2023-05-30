@@ -40,7 +40,7 @@ export default function Registration() {
   };
 
   return (
-    <div className="reg_container">
+    <div className="registration">
       <div className="header">
         <h2>Register</h2>
       </div>
