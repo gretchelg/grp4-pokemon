@@ -11,6 +11,7 @@ import Navigation from "./components/Navigation";
 import Landingpage from "./components/Landingpage";
 import Errorpage from "./components/Errorpage";
 import Leaderboard from "./components/Leaderboard";
+import PokemonBattle from "./components/PokemonBattle";
 
 function App() {
   const { isRegistered } = useContext(DataContext);
@@ -22,6 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landingpage />} />
         <Route path="/home" element={<Landingpage />} />
+        <Route path="/arena" element={<PokemonBattle />} />
         <Route path="/login" element={<Login />} />
         <Route
           path="/registration"

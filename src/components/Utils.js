@@ -22,7 +22,7 @@
 
 // Fetch One User
     const fetchOneUser = async () => {
-    return fetch("http://localhost:4000/api/users/6470c4420002f15771da7850")
+    return fetch("http://localhost:4000/api/users/6476547bd65a2d249bb5e77c")
 // return fetch(`http://localhost:4000/api/users/${id}`)
     .then(res => res.json())
     .then(user => { 
