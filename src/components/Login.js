@@ -5,10 +5,11 @@ import { NavLink } from "react-router-dom";
 export default function Login() {
   const [user_name, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  console.log(user_name, password);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    fetch("http://localhost:4000/api/users", {
+    fetch("http://localhost:4000/api/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -41,8 +42,8 @@ export default function Login() {
         />
         <input
           className="login_input"
-          onChange={(e) => setUserName(e.target.value)}
-          type="text"
+          onChange={(e) => setPassword(e.target.value)}
+          type="password"
           value={password}
           placeholder="password"
         />
