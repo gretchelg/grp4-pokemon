@@ -1,53 +1,50 @@
-// export default function Utils() {
-// function Utils() {
-//     const fetchAllPokemons = async () => {
-//         const res = await fetch("http://localhost:4000/api/pokemons")
-//         const data = await res.json();
-//         console.log("point1:", data)
-//         }
-    // const fetchOnePokemons = async () => {
-    //     const res = await fetch("http://localhost:4000/api/pokemons/6470c3a6f3a67278edb83672")
-    //     const data = await res.json();
-    //     console.log("point1:", data)
-    //     }
-// 
-//     return (
-//         <>this is some JSX inside utils</>
-//     )
-// }
-
-const fetchAllPokemons = async () => {
-    const res = await fetch("http://localhost:4000/api/pokemons")
-    const data = await res.json();
-    console.log("point1:", data)
-    }
-
-const fetchOnePokemonFromTheDB = async () => {
-    const res = await fetch("http://localhost:4000/api/pokemons/6470c3a6f3a67278edb83672")
-    const data = await res.json();
-    console.log("point1:", data)
-    }
-
-const fetchOnePokemonFromTheDBv2 = async () => {
-    fetch("http://localhost:4000/api/pokemons/6470c3a6f3a67278edb83672")
+    // Fetch one Pokemon    
+    const fetchOnePokemon = async ( id ) => {
+        console.log("pokemon_id:", id)
+        // return fetch("http://localhost:4000/api/pokemons/bulbasaur")
+        return fetch(`http://localhost:4000/api/pokemons/${id}`)
         .then(res => res.json())
-        .then(data => console.log("point1:", data))
-    }
-    
-const fetchOnePokemonFromTheDBv3 = async () => {
-    return fetch("http://localhost:4000/api/pokemons/6470c3a6f3a67278edb83672")
-        .then(res => res.json())
-        .then(data => { 
-            console.log("point1:", data)
-            return data
+        .then(pokemon => { 
+            console.log("One Pokemon:", pokemon)
+            return pokemon
         })
     }
-    
-const myMessage = "A const message from utils package"
-const myGreeting = "hello"
+
+// Fetch All Pokemon    
+    const fetchAllPokemons = async () => {
+    return fetch('http://localhost:4000/api/pokemons')
+    .then(res => res.json())
+    .then(pokemons => {
+        console.log("All Pokemon", pokemons)
+        return pokemons
+        })
+    }    
+
+// Fetch One User
+    const fetchOneUser = async () => {
+    return fetch("http://localhost:4000/api/users/6470c4420002f15771da7850")
+// return fetch(`http://localhost:4000/api/users/${id}`)
+    .then(res => res.json())
+    .then(user => { 
+        console.log("One User:", user)
+        return user
+    })
+}
+
+// Fetch All User
+
+    const fetchAllUsers = async () => {
+        return fetch('http://localhost:4000/api/users/leaderboard')
+        .then(res => res.json())
+        .then(users => {
+            console.log("All Pokemon", users)
+            return users
+            })
+        }        
 
 export default {
-    message: myMessage,
-    greeting: myGreeting,
-    fetchOne: fetchOnePokemonFromTheDBv3
+    fetchOnePokemon: fetchOnePokemon,
+    fetchAllPokemons: fetchAllPokemons,
+    fetchAllUsers: fetchAllUsers, 
+    fetchOneUser:fetchOneUser
 }

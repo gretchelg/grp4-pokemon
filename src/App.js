@@ -10,12 +10,13 @@ import { DataContext } from "./contexts/DataContext";
 import Navigation from "./components/Navigation";
 import Landingpage from "./components/Landingpage";
 import Errorpage from "./components/Errorpage";
+import Leaderboard from "./components/Leaderboard";
 
 function App() {
   const { isRegistered } = useContext(DataContext);
   return (
     <div className="App">
-      {/* <Navigation /> */}
+      <Navigation />
 
       {/* SETUP ROUTES AND PATHS    */}
       <Routes>
@@ -30,6 +31,7 @@ function App() {
         />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/dashboard" element={<UserProfile />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/:id" element={<Profile />} />
         <Route path="/oops" element={<Errorpage />} />
         <Route path="*" element={<Errorpage />} />
