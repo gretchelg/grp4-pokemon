@@ -13,17 +13,22 @@ import Landingpage from "./components/Landingpage";
 import Errorpage from "./components/Errorpage";
 
 function App() {
-  const { isLoggedIn } = useContext(DataContext);
+  const { isRegistered } = useContext(DataContext);
   return (
     <div className="App">
-      <Navigation />
+      {/* <Navigation /> */}
 
       {/* SETUP ROUTES AND PATHS    */}
       <Routes>
         <Route path="/" element={<Landingpage />} />
         <Route path="/home" element={<Landingpage />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/registration" element={<Registration />} />
+        <Route
+          path="/registration"
+          element={
+            !isRegistered ? <Registration /> : <Navigate replace to="/login" />
+          }
+        />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/dashboard" element={<UserProfile />} />
         <Route path="/:id" element={<Profile />} />

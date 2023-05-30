@@ -1,6 +1,9 @@
 export default function Gallery() {
-
-    return (
-        <div>Pokemon Gallery</div>
-    )
+  return (
+    <div>
+      <div className="header">
+        <h2>Register</h2>
+      </div>
+    </div>
+  );
 }

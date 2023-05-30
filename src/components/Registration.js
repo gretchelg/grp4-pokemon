@@ -1,18 +1,51 @@
 import "./styles/Registration.css";
+import "../../src/App.css";
 import { useState, useContext } from "react";
 
 import { DataContext } from "../contexts/DataContext.jsx";
 
 export default function Registration() {
-  const { submitHandler, changeHandler } = useContext(DataContext);
+  const { setisRegistered, isRegistered } = useContext(DataContext);
+
+  const [regMsg, setRegMsg] = useState("");
+
+  // ===================================
+  // create Users Object and POST request
+  // ===================================
+  const [formData, setFormData] = useState({
+    user_name: "",
+    email: "",
+    password: "",
+  });
+
+  const changeHandler = function (event) {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
+
+  const submitHandler = function (event) {
+    event.preventDefault();
+    console.log(formData);
+
+    fetch("http://localhost:4000/api/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setisRegistered(data.success);
+        setRegMsg(data.msg);
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <div className="reg_container">
-      <div className="reg_header">
+      <div className="header">
         <h2>Register</h2>
       </div>
       <form onSubmit={submitHandler} className="reg_form">
-        <label for="reg_username">Create a username</label>
+        <label htmlFor="reg_username">Create a username</label>
         <input
           onChange={changeHandler}
           name="user_name"
@@ -21,7 +54,7 @@ export default function Registration() {
           required
         />
 
-        <label for="reg_email">Add your email</label>
+        <label htmlFor="reg_email">Add your email</label>
         <input
           onChange={changeHandler}
           type="email"
@@ -29,7 +62,7 @@ export default function Registration() {
           name="email"
         />
 
-        <label for="reg_password">Create a username</label>
+        <label htmlFor="reg_password">Create a username</label>
         <input
           name="password"
           onChange={changeHandler}
@@ -39,6 +72,7 @@ export default function Registration() {
         />
 
         <button type="submit">Register</button>
+        <div className="reg_msg">{regMsg}</div>
       </form>
     </div>
   );
