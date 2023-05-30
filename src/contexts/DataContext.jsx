@@ -15,6 +15,13 @@ export default function DataContextProvider(props) {
   const [isRegistered, setisRegistered] = useState(false);
   // console.log("Is registered:", isRegistered);
 
+  // ===================================
+  // store LoggedIn sensor
+  // ===================================
+
+  const [isLoggedIn, setisLoggedIn] = useState(false);
+  const [userData, setUserData] = useState({});
+
   return (
     <DataContext.Provider
       value={{
@@ -22,6 +29,8 @@ export default function DataContextProvider(props) {
         setisRegistered,
         pokemonData,
         setPokemonData,
+        isLoggedIn,
+        userData,
       }}
     >
       {props.children}
