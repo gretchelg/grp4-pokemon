@@ -14,7 +14,7 @@ import Leaderboard from "./components/Leaderboard";
 import PokemonBattle from "./components/PokemonBattle";
 
 function App() {
-  const { isRegistered } = useContext(DataContext);
+  const { isRegistered, isLoggedIn } = useContext(DataContext);
   return (
     <div className="App">
       <Navigation />
@@ -24,7 +24,12 @@ function App() {
         <Route path="/" element={<Landingpage />} />
         <Route path="/home" element={<Landingpage />} />
         <Route path="/arena" element={<PokemonBattle />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={
+            !isLoggedIn ? <Login /> : <Navigate replace to="/dashboard" />
+          }
+        />
         <Route
           path="/registration"
           element={
