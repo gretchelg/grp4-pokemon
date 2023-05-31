@@ -1,3 +1,33 @@
+// Put Score endpoint to increment user score
+    const putScore = async ( {userID, scoreToAdd, coinsToAdd} ) => {
+        const payload = { 
+            id: userID, 
+            score: scoreToAdd, 
+            coins: coinsToAdd
+        }
+
+        console.log("INFO sending PUT score to backend:", payload)
+        return fetch(`http://localhost:4000/api/users/arena/${userID}`, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(res => {
+                // if result is not http 200/201, throw an error
+                if (res.status > 201) {
+                    throw("failed to post score: " + res.status)
+                }
+            })
+    }
+
+// this is just for testing
+// postScore({userID: "6476547bd65a2d249bb5e77c", scoreToAdd: 10, coinsToAdd: 3})
+//     .then(_ => console.log("successfully posted score"))
+//     .catch(e => console.log("failed posting score:", e))
+
 // Fetch one Pokemon    
     const fetchOnePokemon = async ( id ) => {
         console.log("pokemon_id:", id)
@@ -195,5 +225,6 @@ export default {
     fetchAllUsers: fetchAllUsers, 
     fetchOneUser:fetchOneUser,
     pokemonAPI:pokemonAPI,
-    fetchUserPokemon:fetchUserPokemon
+    fetchUserPokemon:fetchUserPokemon,
+    addToScore: putScore,
 }
