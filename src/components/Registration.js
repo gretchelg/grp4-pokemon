@@ -40,7 +40,7 @@ export default function Registration() {
   };
 
   return (
-    <div className="reg_container">
+    <div className="registration">
       <div className="header">
         <h2>Register</h2>
       </div>
@@ -62,7 +62,7 @@ export default function Registration() {
           name="email"
         />
 
-        <label htmlFor="reg_password">Create a username</label>
+        <label htmlFor="reg_password">Create a password</label>
         <input
           name="password"
           onChange={changeHandler}

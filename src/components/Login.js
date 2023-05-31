@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { DataContext } from "../contexts/DataContext";
+import "../App.css";
 
 export default function Login() {
   const [user_name, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  console.log(user_name, password);
+  const [regMsg, setRegMsg] = useState("");
+
+  const { setisLoggedIn, isLoggedIn, userData, setUserData } =
+    useContext(DataContext);
 
   const submitHandler = (e) => {
+    console.log("form submitted", user_name, password);
     e.preventDefault();
     fetch("http://localhost:4000/api/users/login", {
       method: "POST",
@@ -15,14 +21,21 @@ export default function Login() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        user_name,
-        password,
+        user_name: user_name,
+        password: password,
       }),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        console.log(data);
+        setUserData(data.data);
+        setisLoggedIn(data.success);
+        setRegMsg(data.msg);
+      })
       .catch((error) => console.log(error));
   };
+  console.log("userdata:", userData);
+  console.log("success:", isLoggedIn);
 
   return (
     <div className="login_container">
@@ -39,6 +52,7 @@ export default function Login() {
           type="text"
           value={user_name}
           placeholder="username"
+          required
         />
         <input
           className="login_input"
@@ -46,12 +60,14 @@ export default function Login() {
           type="password"
           value={password}
           placeholder="password"
+          required
         />
         <NavLink className="login_signup" to="/registration">
-          <h2>SIGN UP</h2>
+          <h2>Not registered yet ? SIGN UP here now</h2>
         </NavLink>
+        <button className="login_button">GO!</button>
+        <div className="reg_msg">{regMsg}</div>
       </form>
-      <button className="login_button">GO!</button>
     </div>
   );
 }

@@ -7,6 +7,11 @@ imports
 /* =================
 General
 ================= */
+:root {
+  --blue: #2a4380;
+  --bg-transparent: rgb(255, 255, 255, 60%);
+  --bg-blue: #c5d9db;
+}
 * {
   font-family: "Keania One", cursive;
 }
