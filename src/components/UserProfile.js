@@ -1,22 +1,26 @@
 import fetchAPI from './Utils';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import "../../src/App.css";
 import "./styles/userProfile.css";
 
-
-
 export default function UserProfile() {
     const [user, setUser] = useState([]);
+    const navigate = useNavigate();
+
     useEffect(() => {
         fetchAPI.fetchOneUser()
         .then(res => { 
             console.log("I'm in the Dashboard:", res.data) 
             setUser(res.data)
-        }
-            )
+        })
     }, [])
 
     if (!user) return null;
+
+    const handleLeaderboardClick = () => {
+        navigate('/leaderboard');
+    }
 
     return (
       <div className="dashboard-container">
@@ -30,7 +34,7 @@ export default function UserProfile() {
         <div className="action-buttons">
           <button className="action-button">Collect a Pokemon</button>
           <button className="action-button">Fight Now</button>
-          <button className="action-button">Leaderboard</button>
+          <button className="action-button" onClick={handleLeaderboardClick}>Leaderboard</button>
         </div>
         <h2>Collection</h2>
         <div className="collection">
