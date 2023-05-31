@@ -1,7 +1,7 @@
-import fetchAPI from './Utils'
+import fetchAPI from './Utils';
 import { useState, useEffect } from 'react';
 import "../../src/App.css";
-import "./styles/Leaderboard.css"
+import "./styles/Leaderboard.css";
 
 export default function Leaderboard() {
     const [users, setUsers] = useState([]);
@@ -9,10 +9,12 @@ export default function Leaderboard() {
     useEffect(() => {
       fetchAPI.fetchAllUsers()
       .then(res => { 
-          console.log("I'm in the Leaderboard:", res.data) 
-          setUsers(res.data)
-      })
-  }, [])
+          console.log("I'm in the Leaderboard:", res.data);
+          // Sort users by score
+          const sortedUsers = res.data.sort((a, b) => b.score - a.score);
+          setUsers(sortedUsers);
+      });
+  }, []);
 
   return (
     <div className="leaderboard-container">
