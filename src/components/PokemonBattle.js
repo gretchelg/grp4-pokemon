@@ -1,39 +1,68 @@
 import { useState, useEffect } from 'react';
+import fetchAPI from './Utils';
+import fetchAPI2 from './Utils'
+import './styles/PokemonBattle.css'
 
 // define sample pokemons
-const cpu_data = {
-    name: 'Charizard',
-    speed: 100,
-    attack: 70,
-    defense: 40,
-    hp: 100,
-    moves: [
-        { name: 'fire breath', power: 50 },
-        { name: 'claw', power: 70 },
-        { name: 'fireball', power: 90 },
-    ],
-}
+// const cpu_data = {
+//     name: 'Charizard',
+//     speed: 100,
+//     attack: 70,
+//     defense: 40,
+//     hp: 100,
+//     moves: [
+//         { name: 'fire breath', power: 50 },
+//         { name: 'claw', power: 70 },
+//         { name: 'fireball', power: 90 },
+//     ],
+// }
 
-const user_data = {
-    name: 'Pikachu',
-    speed: 90,
-    attack: 50,
-    defense: 30,
-    hp: 200,
-    moves: [
-        { name: 'electricity', power: 40 },
-        { name: 'bite', power: 60 },
-        { name: 'lightning bolt', power: 80 },
-    ],
-}
-
+// const user_data = {
+//     name: 'Pikachu',
+//     speed: 90,
+//     attack: 50,
+//     defense: 30,
+//     hp: 200,
+//     moves: [
+//         { name: 'electricity', power: 40 },
+//         { name: 'bite', power: 60 },
+//         { name: 'lightning bolt', power: 80 },
+//     ],
+// }
 
 export default function PokemonBattle() {
     const [battle, setBattle] = useState({});
     const [battleLog, setBattleLog] = useState([]);
-    const [battleOngoing, setBattleOngoing] = useState(false);
+    const [battleOngoing, setBattleOngoing] = useState(false); 
+    const [cpuPokemonData, setCpuPokemonData] = useState({});
+    const [userPokemonData, setUserPokemonData] = useState({});
 
-    
+    useEffect(() => { 
+        console.log("useEffect initializing")
+        pickRandomPokemon()
+            .then(res => {
+                setCpuPokemonData(res)
+                console.log("I'm the CPU Pokemon:", res);
+            })
+            .catch(error => {
+                console.error("Error while picking random Pokemon:", error);
+            }); 
+
+        console.log("second useEffect...")
+        getUserPokemonData()
+            .then(res => {
+                setUserPokemonData(res)
+                console.log("I'm the User Pokemon:", res);
+            })
+            .catch(error => {
+                console.error("Error while fetching User Pokemon:", error);
+            });    
+    }, [])
+
+    console.log("outside CPU Pokemon:", cpuPokemonData);
+    console.log("outside User Pokemon:", userPokemonData);
+    const user_data = userPokemonData;
+    const cpu_data = cpuPokemonData;
 
     const handleBattleStart = () => {
         // battle has started
@@ -109,10 +138,37 @@ export default function PokemonBattle() {
     // UI (1/3): Pre-Battle
     if (!battleOngoing) {
         return (
-            <>
-                <h1>Welcome to the Arena</h1>
-                <button onClick={handleBattleStart}>Start Battle</button>
-            </>
+        <div className='wrapper'>
+            <h1>Welcome to the Arena</h1>
+            
+            <div className='player'>
+                <img className='pokemon_image'
+                    src={userPokemonData.front_default} 
+                    alt={userPokemonData.name}/>
+            </div>
+
+            <div className='info'>
+                <p> My Pokemon : {userPokemonData.name}</p>
+                <p>Attack : {userPokemonData.attack}</p>
+                <p>Defense : {userPokemonData.defense}</p>
+                <p>Speed : {userPokemonData.speed}</p>
+            </div>
+                
+            <div className='cpu'>
+                <img className='pokemon_image'
+                    src={cpuPokemonData.front_default} 
+                    alt={cpuPokemonData.name}/>
+            </div>
+
+            <div className='info'>
+                <p> CPU Pokemon : {cpuPokemonData.name}</p>
+                <p>Attack : {cpuPokemonData.attack}</p>
+                <p>Defense : {cpuPokemonData.defense}</p>
+                <p>Speed : {cpuPokemonData.speed}</p>
+            </div>
+
+            <button onClick={handleBattleStart}>Start Battle</button>
+        </div>
         )
     }
 
@@ -124,21 +180,54 @@ export default function PokemonBattle() {
     
                 {/* SECTION: BATTLE LOG */}
                 <h3>Battle Log:</h3>
-                <ul>
+                <p>
                     {battleLog?.map((log, index) => (
-                    <li key={index}>{log}</li>
+                    <p key={index}>{log}</p>
                     ))}
-                </ul>
+                </p>
+                {/* <p>{battleLog && battleLog[battleLog.length - 1]}</p> */}
+
+            <div className='wrapper'>
+                <div className='player'>
+                    <img className='pokemon_image'
+                        src={userPokemonData.front_default} 
+                        alt={userPokemonData.name}/>
+                </div>
+
+                    <div className='info'>
+                        <p> My Pokemon : {userPokemonData.name}</p>
+                        <p>Attack : {userPokemonData.attack}</p>
+                        <p>Defense : {userPokemonData.defense}</p>
+                        <p>Speed : {userPokemonData.speed}</p>
+                    </div>
+                
+
+                <div className='cpu'>
+                    <img className='pokemon_image'
+                        src={cpuPokemonData.front_default} 
+                        alt={cpuPokemonData.name}/>
+                </div>
+
+                    <div className='info'>
+                        <p> CPU Pokemon : {cpuPokemonData.name}</p>
+                        <p>Attack : {cpuPokemonData.attack}</p>
+                        <p>Defense : {cpuPokemonData.defense}</p>
+                        <p>Speed : {cpuPokemonData.speed}</p>
+                    </div>
+                    
+                </div>
+                    
+        
     
                 {/* SECTION: POKEMON STATS */}
-                <h3>Opponents Stats:</h3>
+                {/* <h3>Opponents Stats:</h3>
                 <p>Player 1 (user): {getUserPokemonForDisplay()}</p>
-                <p>Player 2 (cpu): {getCpuPokemonForDisplay()}</p>
+                <p>Player 2 (cpu): {getCpuPokemonForDisplay()}</p> */}
     
                 {/* SECTION: USER INPUT */}
                 <h3>Choose Attack:</h3>
                 { battle.nextTurn === USER 
-                    ? battle.userPokemon.moves.map((move, index) => (
+                    ? battle.userPokemon.moveData.map((move, index) => (
                         <button
                             key={index}
                             onClick={() => handleUserMoveSelected(index)}
@@ -158,16 +247,48 @@ export default function PokemonBattle() {
 
             {/* SECTION: BATTLE LOG */}
             <h3>Battle Log:</h3>
-            <ul>
+            <p>
                 {battleLog?.map((log, index) => (
-                    <li key={index}>{log}</li>
+                    <p key={index}>{log}</p>
                 ))}
-            </ul>
+            </p>
+            {/* <p>{battleLog && battleLog[battleLog.length - 1]}</p> */}
 
             {/* SECTION: POKEMON STATS */}
-            <h3>Opponents Stats:</h3>
+            {/* <h3>Opponents Stats:</h3>
             <p>Player 1 (user): {getUserPokemonForDisplay()}</p>
-            <p>Player 2 (cpu): {getCpuPokemonForDisplay()}</p>
+            <p>Player 2 (cpu): {getCpuPokemonForDisplay()}</p> */}
+
+            <div className='wrapper'>
+                <div className='player'>
+                    <img className='pokemon_image'
+                        src={userPokemonData.front_default} 
+                        alt={userPokemonData.name}/>
+                </div>
+
+                    <div className='info'>
+                        <p> My Pokemon : {userPokemonData.name}</p>
+                        <p>Attack : {userPokemonData.attack}</p>
+                        <p>Defense : {userPokemonData.defense}</p>
+                        <p>Speed : {userPokemonData.speed}</p>
+                    </div>
+                
+
+                <div className='cpu'>
+                    <img className='pokemon_image'
+                        src={cpuPokemonData.front_default} 
+                        alt={cpuPokemonData.name}/>
+                </div>
+
+                    <div className='info'>
+                        <p> CPU Pokemon : {cpuPokemonData.name}</p>
+                        <p>Attack : {cpuPokemonData.attack}</p>
+                        <p>Defense : {cpuPokemonData.defense}</p>
+                        <p>Speed : {cpuPokemonData.speed}</p>
+                    </div>
+
+            </div>
+                    
 
             {/* SECTION: BATTLE RESULT */}
             <h3>Result:</h3>
@@ -185,13 +306,28 @@ export default function PokemonBattle() {
     )
 }
 
+// ------------------------------------------------------------------------------
+
+// pickRandom pokemon and returns its index
+async function pickRandomPokemon() {
+    const randomIndex = Math.floor(Math.random() * 499);
+    console.log("index:", randomIndex)
+
+    return fetchAPI.pokemonAPI(randomIndex); 
+}
+
+async function getUserPokemonData() {
+    const myPokemon = "pikachu"
+    return fetchAPI2.fetchUserPokemon(myPokemon);
+
+}
 // pickRandomMove picks a move from the provided moves and returns its index
 function pickRandomMove(moves) {
     return Math.floor(Math.random() * moves.length);
 }
 
 function doCpuMove (battle) {
-    const cpuMoves = battle.cpuPokemon.moves
+    const cpuMoves = battle.cpuPokemon.moveData
     const randomCpuMove = pickRandomMove(cpuMoves)
     const flavorText = applyMove(battle, randomCpuMove)
     return flavorText
@@ -258,8 +394,8 @@ function applyMove(battle, moveIndex) {
         : [battle.cpuPokemon, battle.userPokemon]
 
     // select the move (ensure safety against array index overflow)
-    const safeMoveIndex = limitIndex(attacker.moves.length, moveIndex)
-    const move = attacker.moves[safeMoveIndex]
+    const safeMoveIndex = limitIndex(attacker.moveData.length, moveIndex)
+    const move = attacker.moveData[safeMoveIndex]
 
     // apply the move's effect
     const damage = Math.floor((attacker.attack / defender.defense) * move.power);
