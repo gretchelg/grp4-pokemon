@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import fetchAPI from './Utils';
 import fetchAPI2 from './Utils'
-import './styles/PokemonBattle.css';
-import { useNavigate } from 'react-router-dom';
+import './styles/PokemonBattle.css'
 
 // define sample pokemons
 // const cpu_data = {
@@ -37,7 +36,6 @@ export default function PokemonBattle() {
     const [battleOngoing, setBattleOngoing] = useState(false); 
     const [cpuPokemonData, setCpuPokemonData] = useState({});
     const [userPokemonData, setUserPokemonData] = useState({});
-    const navigate = useNavigate();
 
     const setRandomCpuPokemon = () => {
         console.log("SET RANDOM CPU POKEMON")
@@ -102,7 +100,7 @@ export default function PokemonBattle() {
             setBattleLog(prevLog => [...prevLog, logText]);
         }
 
-        // if user HP > 0 then tell them they will move next
+        // if user is not dead then tell them they will move next
         if (!battle.isFinished) {
             setBattleLog(prevLog => [...prevLog, `${battle.userPokemon.name} will move next...`]);
         }
@@ -165,7 +163,7 @@ export default function PokemonBattle() {
         const cpuLogText = doCpuMove(battle)
         setBattleLog(prevLog => [...prevLog, cpuLogText]);
 
-        // if user HP > 0 then tell them they will move next
+        // if user is not dead then tell them they will move next
         if (!battle.isFinished) {
             setBattleLog(prevLog => [...prevLog, `${battle.userPokemon.name} will move next...`]);
         }
@@ -177,10 +175,6 @@ export default function PokemonBattle() {
             } 
             setBattleLog(prevLog => [...prevLog, `The battle is finished! ${battle.winningPokemon} wins!`]);
         }
-    }
-
-    const handleDashboardClick = () => {
-        navigate('/dashboard');
     }
 
     // below are convenience functions to quickly display stats (e.g. current HP)
@@ -200,8 +194,7 @@ export default function PokemonBattle() {
                         alt={userPokemonData.name}/>
 
                     <div className='info'>
-                    <h5>My Pokemon : {userPokemonData.name}</h5>
-                    <p>HP : {userPokemonData.hp}</p>
+                    <p> My Pokemon : {userPokemonData.name}</p>
                     <p>Attack : {userPokemonData.attack}</p>
                     <p>Defense : {userPokemonData.defense}</p>
                     <p>Speed : {userPokemonData.speed}</p>
@@ -215,8 +208,7 @@ export default function PokemonBattle() {
                         alt={cpuPokemonData.name}/>
                     
                     <div className='info'>
-                    <h5>CPU Pokemon : {cpuPokemonData.name}</h5>
-                    <p>HP : {cpuPokemonData.hp}</p>
+                    <p> CPU Pokemon : {cpuPokemonData.name}</p>
                     <p>Attack : {cpuPokemonData.attack}</p>
                     <p>Defense : {cpuPokemonData.defense}</p>
                     <p>Speed : {cpuPokemonData.speed}</p>
@@ -225,7 +217,6 @@ export default function PokemonBattle() {
             </div>
 
             <button onClick={handleBattleStart}>Start Battle</button>
-            <button onClick={handleDashboardClick}>Switch Pokemon</button>
         </div>
         )
     }
@@ -252,8 +243,7 @@ export default function PokemonBattle() {
                             alt={userPokemonData.name}/>
 
                         <div className='info'>
-                        <h5>{getUserPokemonForDisplay()}</h5>    
-                        <h5> My Pokemon : {userPokemonData.name}</h5>
+                        <p> My Pokemon : {userPokemonData.name}</p>
                         <p>Attack : {userPokemonData.attack}</p>
                         <p>Defense : {userPokemonData.defense}</p>
                         <p>Speed : {userPokemonData.speed}</p>
@@ -267,8 +257,7 @@ export default function PokemonBattle() {
                             alt={cpuPokemonData.name}/>
                         
                         <div className='info'>
-                        <h5>{getCpuPokemonForDisplay()}</h5>
-                        <h5> CPU Pokemon : {cpuPokemonData.name}</h5>
+                        <p> CPU Pokemon : {cpuPokemonData.name}</p>
                         <p>Attack : {cpuPokemonData.attack}</p>
                         <p>Defense : {cpuPokemonData.defense}</p>
                         <p>Speed : {cpuPokemonData.speed}</p>
@@ -276,6 +265,12 @@ export default function PokemonBattle() {
                     </div>
                 </div>
 
+    
+                {/* SECTION: POKEMON STATS */}
+                {/* <h3>Opponents Stats:</h3>
+                <p>Player 1 (user): {getUserPokemonForDisplay()}</p>
+                <p>Player 2 (cpu): {getCpuPokemonForDisplay()}</p> */}
+    
                 {/* SECTION: USER INPUT */}
                 <h3>Choose Attack:</h3>
                 { battle.nextTurn === USER 
@@ -306,34 +301,53 @@ export default function PokemonBattle() {
             </p>
             {/* <p>{battleLog && battleLog[battleLog.length - 1]}</p> */}
 
+            {/* SECTION: POKEMON STATS */}
+            {/* <h3>Opponents Stats:</h3>
+            <p>Player 1 (user): {getUserPokemonForDisplay()}</p>
+            <p>Player 2 (cpu): {getCpuPokemonForDisplay()}</p> */}
+
+            <div className='wrapper'>
+                <div className='player'>
+                    <img className='pokemon_image'
+                        src={userPokemonData.front_default} 
+                        alt={userPokemonData.name}/>
+
+                    <div className='info'>
+                    <p> My Pokemon : {userPokemonData.name}</p>
+                    <p>Attack : {userPokemonData.attack}</p>
+                    <p>Defense : {userPokemonData.defense}</p>
+                    <p>Speed : {userPokemonData.speed}</p>
+                    </div>
+                </div>
+
+                    
+                <div className='cpu'>
+                    <img className='pokemon_image'
+                        src={cpuPokemonData.front_default} 
+                        alt={cpuPokemonData.name}/>
+                    
+                    <div className='info'>
+                    <p> CPU Pokemon : {cpuPokemonData.name}</p>
+                    <p>Attack : {cpuPokemonData.attack}</p>
+                    <p>Defense : {cpuPokemonData.defense}</p>
+                    <p>Speed : {cpuPokemonData.speed}</p>
+                    </div>
+                </div>
+            </div>
+                    
+
             {/* SECTION: BATTLE RESULT */}
             <h3>Result:</h3>
-            
-            { battle.isFinished && battle.winner === USER 
-                ? (
-                <div>
-                    <h2>YOU WON! :)</h2>
-                    <img className='pokemon_image'
-                    src={userPokemonData.front_default} 
-                    alt={userPokemonData.name}/>
-                    <p>{userPokemonData.name} wins!</p>
-                </div>
-                )
-                : (
-                    <div>
-                    <h2>YOU LOST :'(</h2>
-                    <img className='pokemon_image'
-                    src={cpuPokemonData.front_default} 
-                    alt={cpuPokemonData.name}/>
-                    <h5>{cpuPokemonData.name} - CPU pokemon wins.</h5>
-                </div>
-                )
-            }
+            <p>
+                { battle.isFinished && battle.winner === USER 
+                    ? "*** YOU WON! ***"
+                    : "*** YOU LOST. ***"
+                }
+            </p>
 
             {/* SECTION: TRY AGAIN */}
             <h3>Play Again?</h3>
             <button onClick={handleBattleRestart}>Restart</button>
-            <button onClick={handleDashboardClick}>Switch Pokemon</button>
         </div>
     )
 }
@@ -408,10 +422,10 @@ function describePokemon(battle, userOrCpu){
         : battle.cpuPokemon
 
     return {
-        // name: subject.name,
-        "Current HP": subject.hp,
-        // attack: subject.attack,
-        // defense: subject.defense
+        name: subject.name,
+        hp: subject.hp,
+        attack: subject.attack,
+        defense: subject.defense
     }
 }
 
