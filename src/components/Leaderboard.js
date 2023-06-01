@@ -6,6 +6,9 @@ import "./styles/Leaderboard.css";
 export default function Leaderboard() {
     const [users, setUsers] = useState([]);
 
+    const date = new Date();
+    const formattedDate = `${date.toLocaleString('en-US', { month: 'long' })} ${date.getDate()}`;
+
     useEffect(() => {
       fetchAPI.fetchAllUsers()
       .then(res => { 
@@ -30,7 +33,7 @@ export default function Leaderboard() {
           <p className="player-name">{users[0].user_name}</p>
           <p className="player-score">Score: {users[0].score}</p>
         </div>
-        <p className="date">March 17</p>
+        <p className="date">{formattedDate}</p>
       </div>}
       <div className="players-list">
         {users.map((user, index) => (

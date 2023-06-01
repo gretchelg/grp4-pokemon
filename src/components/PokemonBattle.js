@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import fetchAPI from './Utils';
 import fetchAPI2 from './Utils'
 import './styles/PokemonBattle.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Box, Typography, Container, Button} from '@mui/material';
 
 // define sample pokemons
 // const cpu_data = {
@@ -38,6 +39,11 @@ export default function PokemonBattle() {
     const [cpuPokemonData, setCpuPokemonData] = useState({});
     const [userPokemonData, setUserPokemonData] = useState({});
     const navigate = useNavigate();
+    const location = useLocation();
+    const player_info = location.state;
+
+    console.log("my props:", player_info)
+    const myPokemon = player_info.selected_pokemon; 
 
     const setRandomCpuPokemon = () => {
         console.log("SET RANDOM CPU POKEMON")
@@ -55,10 +61,9 @@ export default function PokemonBattle() {
             }); 
     }
 
-
     useEffect(() => { 
         console.log("useEffect initializing")
-        getUserPokemonData()
+        getUserPokemonData(myPokemon)
             .then(res => {
                 setUserPokemonData(res)
             })
@@ -77,11 +82,12 @@ export default function PokemonBattle() {
     const incrementScore = () => {
         console.log("INFO incrementing score...")
         fetchAPI.addToScore({
-            userID: "6476547bd65a2d249bb5e77c", // TODO change this to real userID
+            // userID: "6476547bd65a2d249bb5e77c", // TODO change this to real userID
+            userID: player_info.user_id,
             scoreToAdd: 10,
             coinsToAdd: 3,
         })
-            .then(_ => console.log("OK successfully incremented score"))
+            .then(_ => console.log("OK successfully incremented score", player_info.user_id))
             .catch(e => console.log("ERROR failed to increment score"))
     }
 
@@ -131,7 +137,7 @@ export default function PokemonBattle() {
 
     const handleBattleRestart = () => {
         setBattleLog([])
-     
+
         // handleBattleStart()
         setRandomCpuPokemon()
             .then(cpuPokemon => {
@@ -192,117 +198,317 @@ export default function PokemonBattle() {
     // UI (1/3): Pre-Battle
     if (!battleOngoing) {
         return (
-        <div className='container'>
+            <Container maxWidth={false} 
+            sx={{ backgroundColor: '#ffffff', minHeight: '100vh', 
+            padding: '2rem', 
+            boxSizing: 'border-box' }}>
 
-            <h1>Welcome to the Arena</h1>
-            <div className='wrapper'>
-                <div className='player'>
+            <Typography
+                variant="h4"
+                // align="center"
+                // gutterBottom
+                sx={{
+                    // marginTop: '2rem',
+                    // paddingTop: '3rem',
+                    // paddingBottom: '2rem',
+                    textAlign: 'center',
+                    transition: 'all 0.3s ease',
+                    '&:hover': { transform: 'scale(1.1)' },
+                }}> 
+               Welcome to the Arena
+            </Typography>
+
+                {/* <h1>Welcome to the Arena</h1> */}
+
+            <Container
+                sx={{ 
+                    display: 'flex', 
+                    justifyContent: "space-between",
+                    padding: '5rem', 
+
+                    }}>
+            <Box className='player1'
+                sx={{
+                width: 300,
+                height: 400,
+                padding: "10px",
+                backgroundColor: 'rgba(219, 219, 219, 0.2)',
+                '&:hover': {
+                backgroundColor: 'rgba(245, 228, 231, 0.5)',
+                opacity: [0.9, 0.8, 0.7],
+                transition: 'all 0.3s ease',
+                '&:hover': { transform: 'scale(1.1)' },
+                },
+                }}
+            >
                     <img className='pokemon_image'
                         src={userPokemonData.front_default} 
                         alt={userPokemonData.name}/>
+                <Typography
+                    sx={{
+                        textAlign: 'center',
+                        transition: 'all 0.3s ease',
+                        '&:hover': { transform: 'scale(1.1)' },
+                        }}> 
 
-                    <div className='info'>
-                    <h5>My Pokemon : {userPokemonData.name}</h5>
-                    <p>HP : {userPokemonData.hp}</p>
-                    <p>Attack : {userPokemonData.attack}</p>
-                    <p>Defense : {userPokemonData.defense}</p>
-                    <p>Speed : {userPokemonData.speed}</p>
-                    </div>
-                </div>
+                        <h5>My Pokemon : {userPokemonData.name}</h5>
+                        <p>HP : {userPokemonData.hp}</p>
+                        <p>Attack : {userPokemonData.attack}</p>
+                        <p>Defense : {userPokemonData.defense}</p>
+                        <p>Speed : {userPokemonData.speed}</p>
+                </Typography>
+            </Box>
 
-                    
-                <div className='cpu'>
-                    <img className='pokemon_image'
-                        src={cpuPokemonData.front_default} 
-                        alt={cpuPokemonData.name}/>
-                    
-                    <div className='info'>
-                    <h5>CPU Pokemon : {cpuPokemonData.name}</h5>
-                    <p>HP : {cpuPokemonData.hp}</p>
-                    <p>Attack : {cpuPokemonData.attack}</p>
-                    <p>Defense : {cpuPokemonData.defense}</p>
-                    <p>Speed : {cpuPokemonData.speed}</p>
-                    </div>
-                </div>
-            </div>
+            <Box className='cpu1'
+                sx={{
+                    width: 300,
+                    height: 400,
+                    padding: "10px",
+                    backgroundColor: 'rgba(219, 219, 219, 0.2)',
+                    '&:hover': {
+                    backgroundColor: 'rgba(245, 228, 231, 0.5)',
+                    opacity: [0.9, 0.8, 0.7],
+                    transition: 'all 0.3s ease',
+                    '&:hover': { transform: 'scale(1.1)' },
+                    },
+                    }}
+                >
+                <img className='pokemon_image'
+                            src={cpuPokemonData.front_default} 
+                            alt={cpuPokemonData.name}/>
 
-            <button onClick={handleBattleStart}>Start Battle</button>
-            <button onClick={handleDashboardClick}>Switch Pokemon</button>
-        </div>
+                <Typography
+                    sx={{
+                        textAlign: 'center',
+                        transition: 'all 0.3s ease',
+                        '&:hover': { transform: 'scale(1.1)' },
+                        }}> 
+                        <h5>CPU Pokemon : {cpuPokemonData.name}</h5>
+                        <p>HP : {cpuPokemonData.hp}</p>
+                        <p>Attack : {cpuPokemonData.attack}</p>
+                        <p>Defense : {cpuPokemonData.defense}</p>
+                        <p>Speed : {cpuPokemonData.speed}</p>
+                </Typography>
+
+            </Box>
+
+            </Container>
+
+            <Button variant="contained" onClick={handleBattleStart}>
+            Start Battle
+            </Button>
+
+            <Button variant="contained" onClick={handleDashboardClick}>
+            Switch Pokemon
+            </Button>
+
+            </Container>    
+
+            
         )
     }
 
     // UI (2/3): Ongoing Battle
     if (!battle.isFinished) {
         return (
-            <div>
-                <h1>Welcome to the Arena</h1>
-                        {/* SECTION: BATTLE LOG */}
-                        <h3>Battle Log:</h3>
-                        <div>
-                            {battleLog?.map((log, index) => (
-                                <p key={index}>{log}</p>
-                            ))}
-                        </div>
+        <Container maxWidth={false} 
+            sx={{ backgroundColor: '#ffffff', minHeight: '100vh', 
+            padding: '2rem', 
+            boxSizing: 'border-box' }}>
+
+            <Typography
+                variant="h4"
+                // align="center"
+                // gutterBottom
+                sx={{
+                    // marginTop: '2rem',
+                    // paddingTop: '3rem',
+                    // paddingBottom: '2rem',
+                    textAlign: 'center',
+                    transition: 'all 0.3s ease',
+                    '&:hover': { transform: 'scale(1.1)' },
+                }}> 
+               Welcome to the Arena
+            </Typography>
+
+            {/* SECTION: BATTLE LOG */}
+              <h3>Battle Log:</h3>
+                <div>
+                    {battleLog?.map((log, index) => (
+                        <p key={index}>{log}</p>
+                    ))}
+                </div>
+            
+            <Container
+                sx={{ 
+                display: 'flex', 
+                justifyContent: "space-between",
+                padding: '5rem', 
+                }}>
+            <Box className='player1'
+                sx={{
+                width: 300,
+                height: 400,
+                padding: "10px",
+                backgroundColor: 'rgba(219, 219, 219, 0.2)',
+                '&:hover': {
+                backgroundColor: 'rgba(245, 228, 231, 0.5)',
+                opacity: [0.9, 0.8, 0.7],
+                transition: 'all 0.3s ease',
+                '&:hover': { transform: 'scale(1.1)' },
+                },
+                }}
+            >
+                    <img className='pokemon_image'
+                        src={userPokemonData.front_default} 
+                        alt={userPokemonData.name}/>
+                <Typography
+                    sx={{
+                        textAlign: 'center',
+                        transition: 'all 0.3s ease',
+                        '&:hover': { transform: 'scale(1.1)' },
+                        }}> 
+
+                    <h5>{getUserPokemonForDisplay()}</h5>
+                    <h5> My Pokemon : {userPokemonData.name}</h5>
+                    <p>Attack : {userPokemonData.attack}</p>
+                    <p>Defense : {userPokemonData.defense}</p>
+                    <p>Speed : {userPokemonData.speed}</p>
+                </Typography>
+            </Box>
+
+            <Box className='cpu1'
+                sx={{
+                    width: 300,
+                    height: 400,
+                    padding: "10px",
+                    backgroundColor: 'rgba(219, 219, 219, 0.2)',
+                    '&:hover': {
+                    backgroundColor: 'rgba(245, 228, 231, 0.5)',
+                    opacity: [0.9, 0.8, 0.7],
+                    transition: 'all 0.3s ease',
+                    '&:hover': { transform: 'scale(1.1)' },
+                    },
+                    }}
+                >
+                <img className='pokemon_image'
+                            src={cpuPokemonData.front_default} 
+                            alt={cpuPokemonData.name}/>
+
+                <Typography
+                    sx={{
+                        textAlign: 'center',
+                        transition: 'all 0.3s ease',
+                        '&:hover': { transform: 'scale(1.1)' },
+                        }}> 
+
+                        <h5>{getCpuPokemonForDisplay()}</h5>
+                        <h5> CPU Pokemon : {cpuPokemonData.name}</h5>
+                        <p>Attack : {cpuPokemonData.attack}</p>
+                        <p>Defense : {cpuPokemonData.defense}</p>
+                        <p>Speed : {cpuPokemonData.speed}</p>
+                </Typography>
+
+            </Box>
+
+            </Container>
+
+                {/* SECTION: USER INPUT */}
+                <h3>Choose Attack:</h3>
+                {battle.nextTurn === USER ? (
+                    battle.userPokemon.moveData.map((move, index) => (
+                        <Button variant="contained" key={index}
+                        onClick={() => handleUserMoveSelected(index)}
+                        >
+                        {move.name}
+                        </Button>
+                    ))
+                    ) : (
+                    <>N.A.</>
+                )}
+
+        </Container>
+
+            // <div>
+            //     <h1>Welcome to the Arena</h1>
+            //             {/* SECTION: BATTLE LOG */}
+            //             <h3>Battle Log:</h3>
+            //             <div>
+            //                 {battleLog?.map((log, index) => (
+            //                     <p key={index}>{log}</p>
+            //                 ))}
+            //             </div>
     
-                        {/* <p>{battleLog && battleLog[battleLog.length - 1]}</p> */}
+            //             {/* <p>{battleLog && battleLog[battleLog.length - 1]}</p> */}
     
-                        <div className='wrapper'>
-                            <div className='player'>
-                                <img
-                                    className='pokemon_image'
-                                    src={userPokemonData.front_default}
-                                    alt={userPokemonData.name}
-                                />
+            //             <div className='wrapper'>
+            //                 <div className='player'>
+            //                     <img
+            //                         className='pokemon_image'
+            //                         src={userPokemonData.front_default}
+            //                         alt={userPokemonData.name}
+            //                     />
     
-                                <div className='info'>
-                                    <h5>{getUserPokemonForDisplay()}</h5>
-                                    <h5> My Pokemon : {userPokemonData.name}</h5>
-                                    <p>Attack : {userPokemonData.attack}</p>
-                                    <p>Defense : {userPokemonData.defense}</p>
-                                    <p>Speed : {userPokemonData.speed}</p>
-                                </div>
-                            </div>
+            //                     <div className='info'>
+            //                         <h5>{getUserPokemonForDisplay()}</h5>
+            //                         <h5> My Pokemon : {userPokemonData.name}</h5>
+            //                         <p>Attack : {userPokemonData.attack}</p>
+            //                         <p>Defense : {userPokemonData.defense}</p>
+            //                         <p>Speed : {userPokemonData.speed}</p>
+            //                     </div>
+            //                 </div>
     
-                            <div className='cpu'>
-                                <img
-                                    className='pokemon_image'
-                                    src={cpuPokemonData.front_default}
-                                    alt={cpuPokemonData.name}
-                                />
+            //                 <div className='cpu'>
+            //                     <img
+            //                         className='pokemon_image'
+            //                         src={cpuPokemonData.front_default}
+            //                         alt={cpuPokemonData.name}
+            //                     />
     
-                                <div className='info'>
-                                    <h5>{getCpuPokemonForDisplay()}</h5>
-                                    <h5> CPU Pokemon : {cpuPokemonData.name}</h5>
-                                    <p>Attack : {cpuPokemonData.attack}</p>
-                                    <p>Defense : {cpuPokemonData.defense}</p>
-                                    <p>Speed : {cpuPokemonData.speed}</p>
-                                </div>
-                            </div>
-                        </div>
+            //                     <div className='info'>
+            //                         <h5>{getCpuPokemonForDisplay()}</h5>
+            //                         <h5> CPU Pokemon : {cpuPokemonData.name}</h5>
+            //                         <p>Attack : {cpuPokemonData.attack}</p>
+            //                         <p>Defense : {cpuPokemonData.defense}</p>
+            //                         <p>Speed : {cpuPokemonData.speed}</p>
+            //                     </div>
+            //                 </div>
+            //             </div>
     
-                        {/* SECTION: USER INPUT */}
-                        <h3>Choose Attack:</h3>
-                        {battle.nextTurn === USER ? (
-                            battle.userPokemon.moveData.map((move, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => handleUserMoveSelected(index)}
-                                >
-                                    {move.name}
-                                </button>
-                            ))
-                        ) : (
-                            <>N.A.</>
-                        )}
-                    </div>
+            //             {/* SECTION: USER INPUT */}
+            //             <h3>Choose Attack:</h3>
+            //             {battle.nextTurn === USER ? (
+            //                 battle.userPokemon.moveData.map((move, index) => (
+            //                     <button
+            //                         key={index}
+            //                         onClick={() => handleUserMoveSelected(index)}
+            //                     >
+            //                         {move.name}
+            //                     </button>
+            //                 ))
+            //             ) : (
+            //                 <>N.A.</>
+            //             )}
+            //         </div>
                 )
     }
 
     // UI (3/3): Battle Finished
     return (
-        <div>
-            <h1>Welcome to the Arena</h1>
+        <Container maxWidth={false} 
+        sx={{ backgroundColor: '#ffffff', minHeight: '100vh', 
+        padding: '2rem', 
+        boxSizing: 'border-box' }}>
+            <Typography
+            variant="h4"
+            sx={{
+                textAlign: 'center',
+                transition: 'all 0.3s ease',
+                '&:hover': { transform: 'scale(1.1)' },
+                }}> 
+               Welcome to the Arena
+            </Typography>
+            {/* <h1>Welcome to the Arena</h1> */}
 
             {/* SECTION: BATTLE LOG */}
             <h3>Battle Log:</h3>
@@ -318,30 +524,63 @@ export default function PokemonBattle() {
             
             { battle.isFinished && battle.winner === USER 
                 ? (
-                <div>
+                <div className='player'>
                     <h2>YOU WON! :)</h2>
-                    <img className='pokemon_image'
-                    src={userPokemonData.front_default} 
-                    alt={userPokemonData.name}/>
+
+                    <Box 
+                        sx={{
+                        width: 300,
+                        height: 400,
+                        padding: "10px",
+                        backgroundColor: 'rgba(219, 219, 219, 0.2)',
+                        '&:hover': {
+                        backgroundColor: 'rgba(245, 228, 231, 0.5)',
+                        opacity: [0.9, 0.8, 0.7],
+                        transition: 'all 0.3s ease',
+                        '&:hover': { transform: 'scale(1.1)' },
+                        },
+                        }}
+                    >
+                        <img className='pokemon_image'
+                        src={userPokemonData.front_default} 
+                        alt={userPokemonData.name}/>
+                    </Box>
                     <p>{userPokemonData.name} wins!</p>
                 </div>
+
                 )
-                : (
-                    <div>
+                :(
+                <div className='cpu'>    
                     <h2>YOU LOST :'(</h2>
-                    <img className='pokemon_image'
-                    src={cpuPokemonData.front_default} 
-                    alt={cpuPokemonData.name}/>
+
                     <h5>{cpuPokemonData.name} - CPU pokemon wins.</h5>
+                    <Box 
+                        sx={{
+                            width: 300,
+                            height: 400,
+                            padding: "10px",
+                            backgroundColor: 'rgba(219, 219, 219, 0.2)',
+                            '&:hover': {
+                            backgroundColor: 'rgba(245, 228, 231, 0.5)',
+                            opacity: [0.9, 0.8, 0.7],
+                            transition: 'all 0.3s ease',
+                            '&:hover': { transform: 'scale(1.1)' },
+                            },
+                            }}
+                    >
+                        <img className='pokemon_image'
+                        src={cpuPokemonData.front_default} 
+                        alt={cpuPokemonData.name}/>
+                    </Box>   
                 </div>
                 )
             }
 
             {/* SECTION: TRY AGAIN */}
             <h3>Play Again?</h3>
-            <button onClick={handleBattleRestart}>Restart</button>
-            <button onClick={handleDashboardClick}>Switch Pokemon</button>
-        </div>
+            <Button variant="contained" onClick={handleBattleRestart}>Restart</Button>
+            <Button variant="contained" onClick={handleDashboardClick}>Switch Pokemon</Button>
+        </Container>
     )
 }
 
@@ -355,12 +594,14 @@ async function pickRandomPokemon() {
     return fetchAPI.pokemonAPI(randomIndex); 
 }
 
-async function getUserPokemonData() {
+async function getUserPokemonData(myPokemon) {
     // const myPokemon = "pikachu"
-    const myPokemon = ["pikachu", "ivysaur", "paras", "meowth", "kadabra"]
-    const index = Math.floor(Math.random() * myPokemon.length);
+    // const myPokemon = ["pikachu", "ivysaur", "paras", "meowth", "kadabra"]
+    // const index = Math.floor(Math.random() * myPokemon.length); 
     console.log("myPokemon:", myPokemon)
-    return fetchAPI2.fetchUserPokemon(myPokemon[index]);
+    return fetchAPI2.fetchUserPokemon(myPokemon);
+    // return fetchAPI2.fetchUserPokemon(myPokemon[index]);
+
 
 }
 // pickRandomMove picks a move from the provided moves and returns its index
