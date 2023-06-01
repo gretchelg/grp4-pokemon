@@ -55,6 +55,7 @@ export default function PokemonBattle() {
             }); 
     }
 
+
     useEffect(() => { 
         console.log("useEffect initializing")
         getUserPokemonData()
@@ -130,6 +131,7 @@ export default function PokemonBattle() {
 
     const handleBattleRestart = () => {
         setBattleLog([])
+     
         // handleBattleStart()
         setRandomCpuPokemon()
             .then(cpuPokemon => {
@@ -235,61 +237,66 @@ export default function PokemonBattle() {
         return (
             <div>
                 <h1>Welcome to the Arena</h1>
+                        {/* SECTION: BATTLE LOG */}
+                        <h3>Battle Log:</h3>
+                        <div>
+                            {battleLog?.map((log, index) => (
+                                <p key={index}>{log}</p>
+                            ))}
+                        </div>
     
-                {/* SECTION: BATTLE LOG */}
-                <h3>Battle Log:</h3>
-                <p>
-                    {battleLog?.map((log, index) => (
-                    <p key={index}>{log}</p>
-                    ))}
-                </p>
-                {/* <p>{battleLog && battleLog[battleLog.length - 1]}</p> */}
-
-                <div className='wrapper'>
-                    <div className='player'>
-                        <img className='pokemon_image'
-                            src={userPokemonData.front_default} 
-                            alt={userPokemonData.name}/>
-
-                        <div className='info'>
-                        <h5>{getUserPokemonForDisplay()}</h5>    
-                        <h5> My Pokemon : {userPokemonData.name}</h5>
-                        <p>Attack : {userPokemonData.attack}</p>
-                        <p>Defense : {userPokemonData.defense}</p>
-                        <p>Speed : {userPokemonData.speed}</p>
+                        {/* <p>{battleLog && battleLog[battleLog.length - 1]}</p> */}
+    
+                        <div className='wrapper'>
+                            <div className='player'>
+                                <img
+                                    className='pokemon_image'
+                                    src={userPokemonData.front_default}
+                                    alt={userPokemonData.name}
+                                />
+    
+                                <div className='info'>
+                                    <h5>{getUserPokemonForDisplay()}</h5>
+                                    <h5> My Pokemon : {userPokemonData.name}</h5>
+                                    <p>Attack : {userPokemonData.attack}</p>
+                                    <p>Defense : {userPokemonData.defense}</p>
+                                    <p>Speed : {userPokemonData.speed}</p>
+                                </div>
+                            </div>
+    
+                            <div className='cpu'>
+                                <img
+                                    className='pokemon_image'
+                                    src={cpuPokemonData.front_default}
+                                    alt={cpuPokemonData.name}
+                                />
+    
+                                <div className='info'>
+                                    <h5>{getCpuPokemonForDisplay()}</h5>
+                                    <h5> CPU Pokemon : {cpuPokemonData.name}</h5>
+                                    <p>Attack : {cpuPokemonData.attack}</p>
+                                    <p>Defense : {cpuPokemonData.defense}</p>
+                                    <p>Speed : {cpuPokemonData.speed}</p>
+                                </div>
+                            </div>
                         </div>
+    
+                        {/* SECTION: USER INPUT */}
+                        <h3>Choose Attack:</h3>
+                        {battle.nextTurn === USER ? (
+                            battle.userPokemon.moveData.map((move, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => handleUserMoveSelected(index)}
+                                >
+                                    {move.name}
+                                </button>
+                            ))
+                        ) : (
+                            <>N.A.</>
+                        )}
                     </div>
-
-                        
-                    <div className='cpu'>
-                        <img className='pokemon_image'
-                            src={cpuPokemonData.front_default} 
-                            alt={cpuPokemonData.name}/>
-                        
-                        <div className='info'>
-                        <h5>{getCpuPokemonForDisplay()}</h5>
-                        <h5> CPU Pokemon : {cpuPokemonData.name}</h5>
-                        <p>Attack : {cpuPokemonData.attack}</p>
-                        <p>Defense : {cpuPokemonData.defense}</p>
-                        <p>Speed : {cpuPokemonData.speed}</p>
-                        </div>
-                    </div>
-                </div>
-
-                {/* SECTION: USER INPUT */}
-                <h3>Choose Attack:</h3>
-                { battle.nextTurn === USER 
-                    ? battle.userPokemon.moveData.map((move, index) => (
-                        <button
-                            key={index}
-                            onClick={() => handleUserMoveSelected(index)}
-                        >{move.name}
-                        </button>
-                    )) 
-                    : <>N.A.</>
-                }
-            </div>
-        )    
+                )
     }
 
     // UI (3/3): Battle Finished
