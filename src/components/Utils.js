@@ -51,15 +51,36 @@
     }    
 
 // Fetch One User
-    const fetchOneUser = async () => {
-    return fetch("http://localhost:4000/api/users/6476547bd65a2d249bb5e77c")
-// return fetch(`http://localhost:4000/api/users/${id}`)
-    .then(res => res.json())
-    .then(user => { 
-        console.log("One User:", user)
-        return user
-    })
-}
+//     const fetchOneUser = async (_id) => {
+//       console.log("_id:", _id)
+//     // return fetch("http://localhost:4000/api/users/6476547bd65a2d249bb5e77c")
+//     return fetch(`http://localhost:4000/api/users/${_id}`)
+//     .then(res => res.json())
+//     .then(user => { 
+//         console.log("One User:", user)
+//         return user
+//     })
+// }
+
+    const fetchOneUser = async (_id) => {
+      console.log("_id:", _id);
+
+      try {
+        const response = await fetch(`http://localhost:4000/api/users/${_id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch user');
+        }
+
+        const user = await response.json();
+        console.log("One User:", user);
+        return user;
+      } catch (error) {
+        console.error('Error fetching user:', error);
+        // You can handle the error as needed (e.g., show an error message)
+        throw error;
+      }
+    };
+
 
 // Fetch All User
 
