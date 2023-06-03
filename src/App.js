@@ -12,6 +12,7 @@ import Landingpage from "./components/Landingpage";
 import Errorpage from "./components/Errorpage";
 import Leaderboard from "./components/Leaderboard";
 import PokemonBattle from "./components/PokemonBattle";
+import SinglePokemon from "./components/SinglePokemon";
 
 function App() {
   const { isRegistered, isLoggedIn } = useContext(DataContext);
@@ -39,7 +40,7 @@ function App() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/dashboard" element={<UserProfile />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
-        <Route path="/:id" element={<Profile />} />
+        <Route path="/:id" element={<SinglePokemon />} />
         <Route path="/oops" element={<Errorpage />} />
         <Route path="*" element={<Errorpage />} />
       </Routes>

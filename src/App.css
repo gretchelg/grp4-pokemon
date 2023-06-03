@@ -36,7 +36,7 @@ style for header
   border-bottom: 14px solid var(--blue);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 

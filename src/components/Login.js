@@ -7,10 +7,12 @@ import "../App.css";
 export default function Login() {
   const [user_name, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [regMsg, setRegMsg] = useState("");
+  const [loginMsg, setLoginMsg] = useState("");
 
   const { setisLoggedIn, isLoggedIn, userData, setUserData } =
     useContext(DataContext);
+
+  console.log(userData);
 
   const submitHandler = (e) => {
     console.log("form submitted", user_name, password);
@@ -27,15 +29,12 @@ export default function Login() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setUserData(data.data);
         setisLoggedIn(data.success);
-        setRegMsg(data.msg);
+        setLoginMsg(data.msg);
       })
       .catch((error) => console.log(error));
   };
-  console.log("userdata:", userData);
-  console.log("success:", isLoggedIn);
 
   return (
     <div className="login_container">
@@ -66,7 +65,7 @@ export default function Login() {
           <h2>Not registered yet ? SIGN UP here now</h2>
         </NavLink>
         <button className="login_button">GO!</button>
-        <div className="reg_msg">{regMsg}</div>
+        <div className="reg_msg">{loginMsg}</div>
       </form>
     </div>
   );
