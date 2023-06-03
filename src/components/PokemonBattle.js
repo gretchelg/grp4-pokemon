@@ -4,6 +4,7 @@ import fetchAPI2 from './Utils'
 import './styles/PokemonBattle.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, Typography, Container, Button} from '@mui/material';
+import BeatLoader from "react-spinners/BeatLoader";
 
 // define sample pokemons
 // const cpu_data = {
@@ -44,7 +45,7 @@ export default function PokemonBattle() {
     const player_info = location.state;
 
     console.log("my props:", player_info)
-    const myPokemon = player_info.selected_pokemon; 
+    const myPokemon = player_info ? player_info.selected_pokemon : "pikachu"; 
 
     const setRandomCpuPokemon = () => {
         console.log("SET RANDOM CPU POKEMON")
@@ -84,7 +85,7 @@ export default function PokemonBattle() {
         console.log("INFO incrementing score...")
         fetchAPI.addToScore({
             // userID: "6476547bd65a2d249bb5e77c", // TODO change this to real userID
-            userID: player_info.user_id,
+            userID: player_info ? player_info.user_id : "647b19205f5822b228233f4d",
             scoreToAdd: 10,
             coinsToAdd: 3,
         })
@@ -319,7 +320,8 @@ export default function PokemonBattle() {
 
     // UI (2/3): Ongoing Battle
     if (!battle.isFinished) {
-        return (
+        return ( 
+
         <Container maxWidth={false} 
             sx={{ backgroundColor: '#ffffff', minHeight: '100vh', 
             padding: '2rem', 
@@ -337,17 +339,27 @@ export default function PokemonBattle() {
                     transition: 'all 0.3s ease',
                     '&:hover': { transform: 'scale(1.1)' },
                 }}> 
-               Welcome to the Arena
+            Welcome to the Arena
             </Typography>
 
             {/* SECTION: BATTLE LOG */}
-              <h3>Battle Log:</h3>
+            <h3>Battle Log:</h3>
                 <div>
                     {battleLog?.map((log, index) => (
                         <p key={index}>{log}</p>
                     ))}
                 </div>
-            
+
+            {cpuIsThinking ? (     
+                <BeatLoader
+                color="#f5a214"
+                loading={cpuIsThinking}
+                size={50}
+                aria-label="Loading Spinner"
+                data-testid="loader"/>
+            ) : <></>
+            }  
+
             <Container
                 sx={{ 
                 display: 'flex', 

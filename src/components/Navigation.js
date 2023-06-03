@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 const drawerWidth = 240;
-const navItems = ['home', 'login', 'arena', 'gallery', 'leaderboard', 'dashboard'];
+const navItems = ['home', 'login', 'gallery', 'leaderboard', 'dashboard'];
 
 export default function Navigation(props) {
     const { window } = props;
