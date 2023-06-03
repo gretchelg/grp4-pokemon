@@ -1,29 +1,89 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.area_wrapper {
+  background-image: url("../../../public/img/arena_background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+.area_header {
+  background-color: var(--bg-transparent);
+  min-height: 80px;
+  height: 13vh;
+  width: 80vw;
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: 0 0 4em 4em;
+  border-left: 5px solid white;
+  border-right: 5px solid white;
+  border-bottom: 14px solid white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.area_header h2 {
+  color: white;
 }
 
 /* .wrapper {
     display: flex;
 } */
 
-.player {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;   
+.arena_player {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
 }
 
-.cpu {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.arena_image {
+  width: 70%; /* Adjust the desired width */
+  height: 250px;
+  padding-bottom: 1rem;
+
+  /* object-fit: cover;  */
 }
 
-.pokemon_image {
-    width: 50%; /* Adjust the desired width */
-    height: 50%; /* Adjust the desired height */
-    /* object-fit: cover;  */
+.arena_info {
+  color: white;
+}
+.arena_info > p {
+  font-size: 1.2rem;
+}
+.players_wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  margin-top: 10%;
+}
+.players_wrapper h3 {
+  font-size: 5rem;
+  color: white;
+}
+
+#arena_pokemone_title {
+  font-size: 1.5rem;
+}
+
+.start_battle {
+  color: white;
+  width: 120px;
+  height: 45px;
+  border-radius: 3rem;
+  border: 3px solid white;
+  background-color: var(--bg-transparent);
+}
+
+.start_battle:hover {
+  background-color: white;
+  color: black;
 }

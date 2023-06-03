@@ -21,8 +21,8 @@ function App() {
 
       {/* SETUP ROUTES AND PATHS    */}
       <Routes>
-        <Route path="/" element={<Landingpage />} />
-        <Route path="/home" element={<Landingpage />} />
+        <Route path="/" element={<Login />} />
+        {/* <Route path="/home" element={<Landingpage />} /> */}
         <Route path="/arena" element={<PokemonBattle />} />
         <Route
           path="/login"
