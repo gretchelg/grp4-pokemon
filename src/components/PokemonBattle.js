@@ -6,6 +6,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, Typography, Container, Button} from '@mui/material';
 import BeatLoader from "react-spinners/BeatLoader";
 
+const CPU_THINKING_TIME = 3000
+
 // define sample pokemons
 // const cpu_data = {
 //     name: 'Charizard',
@@ -109,7 +111,7 @@ export default function PokemonBattle() {
         if (battle.nextTurn == CPU) { 
             setCpuIsThinking(true)
             setBattleLog(prevLog => [...prevLog, `${battle.cpuPokemon.name} is thinking...`]);
-            await sleep(2000)
+            await sleep(CPU_THINKING_TIME)
             setCpuIsThinking(false)
             const logText = doCpuMove(battle)
             setBattleLog(prevLog => [...prevLog, logText]);
@@ -178,7 +180,7 @@ export default function PokemonBattle() {
         // do cpu move
         setCpuIsThinking(true)
         setBattleLog(prevLog => [...prevLog, `${battle.cpuPokemon.name} is thinking...`]);
-        await sleep(2000)
+        await sleep(CPU_THINKING_TIME)
         setCpuIsThinking(false)
         const cpuLogText = doCpuMove(battle)
         setBattleLog(prevLog => [...prevLog, cpuLogText]);

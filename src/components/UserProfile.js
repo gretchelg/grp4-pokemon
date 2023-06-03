@@ -12,9 +12,11 @@ export default function UserProfile() {
     const { userData, setUserData  } = useContext(DataContext);
     const { _id } = userData
 
+    const player_id = _id ? _id : "647b19205f5822b228233f4d"  
+
     useEffect(() => {
-      console.log("This is my datacontext id:", _id)
-        fetchAPI.fetchOneUser(_id)
+      console.log("This is my datacontext id:", player_id)
+        fetchAPI.fetchOneUser(player_id)
         .then(res => { 
             console.log("I'm in the Dashboard:", res.data) 
             setUser(res.data)
