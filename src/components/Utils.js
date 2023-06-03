@@ -1,3 +1,32 @@
+// Put Score endpoint to increment user score
+const putScore = async ({ userID, scoreToAdd, coinsToAdd }) => {
+  const payload = {
+    id: userID,
+    score: scoreToAdd,
+    coins: coinsToAdd,
+  };
+
+  console.log("INFO sending PUT score to backend:", payload);
+  return fetch(`http://localhost:4000/api/users/arena/${userID}`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  }).then((res) => {
+    // if result is not http 200/201, throw an error
+    if (res.status > 201) {
+      throw "failed to post score: " + res.status;
+    }
+  });
+};
+
+// this is just for testing
+// postScore({userID: "6476547bd65a2d249bb5e77c", scoreToAdd: 10, coinsToAdd: 3})
+//     .then(_ => console.log("successfully posted score"))
+//     .catch(e => console.log("failed posting score:", e))
+
 // Fetch one Pokemon
 const fetchOnePokemon = async (id) => {
   console.log("pokemon_id:", id);
@@ -21,16 +50,34 @@ const fetchAllPokemons = async () => {
 };
 
 // Fetch One User
-const fetchOneUser = async () => {
-  return (
-    fetch("http://localhost:4000/api/users/6476547bd65a2d249bb5e77c")
-      // return fetch(`http://localhost:4000/api/users/${id}`)
-      .then((res) => res.json())
-      .then((user) => {
-        console.log("One User:", user);
-        return user;
-      })
-  );
+//     const fetchOneUser = async (_id) => {
+//       console.log("_id:", _id)
+//     // return fetch("http://localhost:4000/api/users/6476547bd65a2d249bb5e77c")
+//     return fetch(`http://localhost:4000/api/users/${_id}`)
+//     .then(res => res.json())
+//     .then(user => {
+//         console.log("One User:", user)
+//         return user
+//     })
+// }
+
+const fetchOneUser = async (_id) => {
+  console.log("_id:", _id);
+
+  try {
+    const response = await fetch(`http://localhost:4000/api/users/${_id}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch user");
+    }
+
+    const user = await response.json();
+    console.log("One User:", user);
+    return user;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    // You can handle the error as needed (e.g., show an error message)
+    throw error;
+  }
 };
 
 // Fetch All User
@@ -46,7 +93,6 @@ const fetchAllUsers = async () => {
 
 // Fetch from Pokemon API
 const pokemonAPI = async (i) => {
-  console.log("pokemon_id:", i);
   try {
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`);
     const data = await res.json();
@@ -83,23 +129,23 @@ const pokemonAPI = async (i) => {
     }));
     const moveData = [];
 
-    const moveUrls = moves.map((move) => {
-      // Fetch All User
+    const movePromises = moves.map((move) => {
+      // Fetch Move Data
       const url = move.url;
-      const fetchMoveData = async () => {
-        try {
-          const res = await fetch(url);
-          const data = await res.json();
+      return fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
           const { name, power } = data;
           moveData.push({ name, power });
-        } catch (error) {
+        })
+        .catch((error) => {
           console.error("Error fetching MOVES from PokemonAPI:", error);
-        }
-      };
-      fetchMoveData();
+        });
     });
 
-    let pokemonObj = {
+    await Promise.all(movePromises);
+
+    const pokemonObj = {
       id,
       name,
       hp,
@@ -113,6 +159,7 @@ const pokemonAPI = async (i) => {
       types,
       weight,
     };
+
     console.log("CPUobject:", pokemonObj);
     return pokemonObj;
   } catch (error) {
@@ -122,9 +169,7 @@ const pokemonAPI = async (i) => {
 
 // Fetch from Pokemon DB
 const fetchUserPokemon = async (myPokemon) => {
-  console.log("pokemon_id:", myPokemon);
   try {
-    // const res = await fetch(`http://localhost:4000/api/pokemons/${id}`)
     const res = await fetch(`http://localhost:4000/api/pokemons/${myPokemon}`);
     const data = await res.json();
 
@@ -152,23 +197,22 @@ const fetchUserPokemon = async (myPokemon) => {
 
     const moveData = [];
 
-    const moveUrls = moves.map((move) => {
-      // Fetch All User
+    const movePromises = moves.map((move) => {
       const url = move.url;
-      const fetchMoveData = async () => {
-        try {
-          const res = await fetch(url);
-          const data = await res.json();
+      return fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
           const { name, power } = data;
           moveData.push({ name, power });
-        } catch (error) {
+        })
+        .catch((error) => {
           console.error("Error fetching MOVES from PokemonAPI:", error);
-        }
-      };
-      fetchMoveData();
+        });
     });
 
-    let pokemonObj = {
+    await Promise.all(movePromises);
+
+    const pokemonObj = {
       id,
       name,
       hp,
@@ -182,6 +226,7 @@ const fetchUserPokemon = async (myPokemon) => {
       types,
       weight,
     };
+
     console.log("UserObject:", pokemonObj);
     return pokemonObj;
   } catch (error) {
@@ -196,4 +241,5 @@ export default {
   fetchOneUser: fetchOneUser,
   pokemonAPI: pokemonAPI,
   fetchUserPokemon: fetchUserPokemon,
+  addToScore: putScore,
 };

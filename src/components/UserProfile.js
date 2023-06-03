@@ -1,26 +1,55 @@
 import fetchAPI from './Utils';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../../src/App.css";
 import "./styles/userProfile.css";
+import { DataContext } from "../contexts/DataContext.jsx";
 
 export default function UserProfile() {
     const [user, setUser] = useState([]);
+    const [selectedPokemon, setSelectedPokemon] = useState(null);
     const navigate = useNavigate();
+    const { userData, setUserData  } = useContext(DataContext);
+    const { _id } = userData
 
     useEffect(() => {
-        fetchAPI.fetchOneUser()
+      console.log("This is my datacontext id:", _id)
+        fetchAPI.fetchOneUser(_id)
         .then(res => { 
             console.log("I'm in the Dashboard:", res.data) 
             setUser(res.data)
+            setUserData(res.data);
         })
     }, [])
+
+    console.log("my info:", user)
 
     if (!user) return null;
 
     const handleLeaderboardClick = () => {
         navigate('/leaderboard');
     }
+
+    const handlePokemonClick = (pokemon) => {
+      setSelectedPokemon(pokemon);
+    }
+
+    const handlePokemonBattleClick = () => {
+      const player_info = {
+        user_id: user._id,
+        user_name: user.user_name, 
+        score: user.score,
+        coins: user.coins,
+        selected_pokemon: selectedPokemon
+      };
+      navigate('/arena', { state: player_info });;
+      
+    }
+
+    const handleGalleryClick = () => {
+      navigate('/gallery');
+    }
+
 
     return (
       <div className="dashboard-container">
@@ -32,14 +61,18 @@ export default function UserProfile() {
           </div>
         </div>
         <div className="action-buttons">
-          <button className="action-button">Collect a Pokemon</button>
-          <button className="action-button">Fight Now</button>
+          <button className="action-button" onClick={handleGalleryClick}>Collect a Pokemon</button>
+          <button className="action-button" onClick={handlePokemonBattleClick}>Start Pokemon Battle</button>
           <button className="action-button" onClick={handleLeaderboardClick}>Leaderboard</button>
         </div>
         <h2>Collection</h2>
         <div className="collection">
         {user.collections && user.collections.map((pokemon, index) => (
-          <div key={index} className="pokemon">{pokemon}</div>
+          <div key={index}
+          className={`pokemon ${selectedPokemon === pokemon ? 'selected' : ''}`} 
+          onClick={() => handlePokemonClick(pokemon)}>
+            {pokemon}
+          </div>
         ))}
       </div>
       </div>
