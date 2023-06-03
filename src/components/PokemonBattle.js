@@ -3,37 +3,9 @@ import fetchAPI from './Utils';
 import fetchAPI2 from './Utils'
 import './styles/PokemonBattle.css';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Box, Typography, Container, Button} from '@mui/material';
 import BeatLoader from "react-spinners/BeatLoader";
 
 const CPU_THINKING_TIME = 3000
-
-// define sample pokemons
-// const cpu_data = {
-//     name: 'Charizard',
-//     speed: 100,
-//     attack: 70,
-//     defense: 40,
-//     hp: 100,
-//     moves: [
-//         { name: 'fire breath', power: 50 },
-//         { name: 'claw', power: 70 },
-//         { name: 'fireball', power: 90 },
-//     ],
-// }
-
-// const user_data = {
-//     name: 'Pikachu',
-//     speed: 90,
-//     attack: 50,
-//     defense: 30,
-//     hp: 200,
-//     moves: [
-//         { name: 'electricity', power: 40 },
-//         { name: 'bite', power: 60 },
-//         { name: 'lightning bolt', power: 80 },
-//     ],
-// }
 
 export default function PokemonBattle() {
     const [battle, setBattle] = useState({});
@@ -86,7 +58,6 @@ export default function PokemonBattle() {
     const incrementScore = () => {
         console.log("INFO incrementing score...")
         fetchAPI.addToScore({
-            // userID: "6476547bd65a2d249bb5e77c", // TODO change this to real userID
             userID: player_info ? player_info.user_id : "647b19205f5822b228233f4d",
             scoreToAdd: 10,
             coinsToAdd: 3,
@@ -96,9 +67,6 @@ export default function PokemonBattle() {
     }
 
     const doFirstTurn = async () => {
-        // console.log("BEFORE reset battle, cpuPokemonData is", cpuPokemonData)
-        // resetBattle(battle, user_data, cpuPokemonData)
-        // console.log("INFO after reset battle", battle)
 
     // print who goes first
     if (battle.nextTurn == CPU) {
@@ -320,6 +288,16 @@ export default function PokemonBattle() {
               <p key={index}>{log}</p>
             ))}
           </div>
+
+          {cpuIsThinking ? (     
+                <BeatLoader
+                color="#f5a214"
+                loading={cpuIsThinking}
+                size={50}
+                aria-label="Loading Spinner"
+                data-testid="loader"/>
+            ) : <></>
+            }  
         </div>
 
         <div className="players_wrapper">
@@ -332,24 +310,6 @@ export default function PokemonBattle() {
               />
               <img className="elipse" src="../../img/ellipse.png" />
             </div>
-            {/* SECTION: BATTLE LOG */}
-            <h3>Battle Log:</h3>
-                <div>
-                    {battleLog?.map((log, index) => (
-                        <p key={index}>{log}</p>
-                    ))}
-                </div>
-
-            {cpuIsThinking ? (     
-                <BeatLoader
-                color="#f5a214"
-                loading={cpuIsThinking}
-                size={50}
-                aria-label="Loading Spinner"
-                data-testid="loader"/>
-            ) : <></>
-            }  
-
 
             <div className="arena_info">
               <h5>{getUserPokemonForDisplay()}</h5>
@@ -414,9 +374,6 @@ export default function PokemonBattle() {
         <h2>Welcome to the Arena</h2>
       </div>
       {/* SECTION: BATTLE LOG */}
-
-      {/* SECTION: BATTLE RESULT */}
-      {/* <h3>Result:</h3> */}
 
       {battle.isFinished && battle.winner === USER ? (
         <div className="arena_result">
