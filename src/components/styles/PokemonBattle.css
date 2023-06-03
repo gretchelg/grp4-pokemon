@@ -32,10 +32,6 @@
   color: white;
 }
 
-/* .wrapper {
-    display: flex;
-} */
-
 .arena_player {
   display: flex;
   flex-direction: column;
@@ -63,7 +59,7 @@
   justify-content: space-evenly;
   align-items: center;
 
-  margin-top: 10%;
+  margin-top: 10px;
 }
 .players_wrapper h3 {
   font-size: 5rem;
@@ -76,14 +72,35 @@
 
 .start_battle {
   color: white;
-  width: 120px;
-  height: 45px;
+  padding: 0 1em;
+  height: 40px;
   border-radius: 3rem;
   border: 3px solid white;
   background-color: var(--bg-transparent);
+  margin: 10px 10px;
 }
 
 .start_battle:hover {
   background-color: white;
   color: black;
+}
+
+.hide {
+  opacity: 0;
+}
+.battle_log {
+  color: white;
+  margin-top: 50px;
+}
+.choose_attack {
+  color: white;
+}
+
+.arena_result {
+  color: white;
+  margin-top: 50px;
+}
+.result_image {
+  width: 300px;
+  margin-top: 50px;
 }
