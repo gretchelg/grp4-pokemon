@@ -9,7 +9,7 @@ General
 ================= */
 :root {
   --blue: #2a4380;
-  --bg-transparent: rgb(255, 255, 255, 60%);
+  --bg-transparent: rgb(255, 255, 255, 50%);
   --bg-blue: #c5d9db;
 }
 * {
@@ -36,7 +36,7 @@ style for header
   border-bottom: 14px solid var(--blue);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 

@@ -9,6 +9,10 @@ export default function DataContextProvider(props) {
   const [pokemonData, setPokemonData] = useState();
 
   // ===================================
+  // store Single Pokemons on Context
+  // ===================================
+  const [onePokemon, setOnePokemon] = useState();
+  // ===================================
   // store Registered sensor
   // ===================================
 
@@ -30,9 +34,11 @@ export default function DataContextProvider(props) {
         pokemonData,
         setPokemonData,
         isLoggedIn,
-        userData,
         setisLoggedIn,
+        userData,
         setUserData,
+        onePokemon,
+        setOnePokemon,
       }}
     >
       {props.children}

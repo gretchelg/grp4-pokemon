@@ -1,0 +1,66 @@
+.singlePokemon {
+  background-color: var(--bg-blue);
+  height: 100vh;
+}
+
+.singlePokemon_container {
+  margin: 80px auto;
+  width: 70%;
+  max-width: 1200px;
+  /* border: solid green 2px; */
+}
+
+.singlePokemon_info_wrapper {
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  gap: 4em;
+}
+
+.singlePokemon_img {
+  display: block;
+  background-color: white;
+  padding: 2em;
+  border-radius: 2em;
+  height: 400px;
+  margin-bottom: 2rem;
+}
+
+.singlePokemon_infobox {
+  /* border: solid 3px green; */
+  height: 400px;
+  text-align: left;
+
+  color: var(--blue);
+}
+
+.infos_large {
+  font-size: 1.2rem;
+}
+.types {
+  background: white;
+  padding: 0.5rem 1rem;
+  margin: 1em;
+  margin-top: 50px;
+  border-radius: 3rem;
+}
+.singlePokemon_Basic {
+  font-size: 2rem;
+  text-decoration: underline;
+}
+.buyNow {
+  margin-top: 3em;
+  color: var(--blue);
+  width: 120px;
+  height: 45px;
+  border-radius: 3rem;
+  border: 3px solid var(--blue);
+  background-color: var(--bg-transparent);
+}
+
+.buyNow:hover {
+  background-color: var(--blue);
+  color: white;
+}
