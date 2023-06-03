@@ -315,6 +315,14 @@ export default function PokemonBattle() {
         ))}
       </p>
       {/* <p>{battleLog && battleLog[battleLog.length - 1]}</p> */}
+      {/* SECTION: BATTLE LOG */}
+      <h3>Battle Log:</h3>
+      <p>
+        {battleLog?.map((log, index) => (
+          <p key={index}>{log}</p>
+        ))}
+      </p>
+      {/* <p>{battleLog && battleLog[battleLog.length - 1]}</p> */}
 
       {/* SECTION: POKEMON STATS */}
       {/* <h3>Opponents Stats:</h3>
