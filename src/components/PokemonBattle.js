@@ -38,6 +38,7 @@ export default function PokemonBattle() {
     const [battleOngoing, setBattleOngoing] = useState(false); 
     const [cpuPokemonData, setCpuPokemonData] = useState({});
     const [userPokemonData, setUserPokemonData] = useState({});
+    const [cpuIsThinking, setCpuIsThinking] = useState(false)
     const navigate = useNavigate();
     const location = useLocation();
     const player_info = location.state;
@@ -91,7 +92,7 @@ export default function PokemonBattle() {
             .catch(e => console.log("ERROR failed to increment score"))
     }
 
-    const doFirstTurn = () => {
+    const doFirstTurn = async () => {
         // console.log("BEFORE reset battle, cpuPokemonData is", cpuPokemonData)
         // resetBattle(battle, user_data, cpuPokemonData)
         // console.log("INFO after reset battle", battle)
@@ -105,6 +106,10 @@ export default function PokemonBattle() {
 
         // if cpu's turn, let cpu do a move
         if (battle.nextTurn == CPU) { 
+            setCpuIsThinking(true)
+            setBattleLog(prevLog => [...prevLog, `${battle.cpuPokemon.name} is thinking...`]);
+            await sleep(2000)
+            setCpuIsThinking(false)
             const logText = doCpuMove(battle)
             setBattleLog(prevLog => [...prevLog, logText]);
         }
@@ -151,7 +156,7 @@ export default function PokemonBattle() {
         // doFirstTurn()
     }
 
-    const handleUserMoveSelected = indexOfMove => {
+    const handleUserMoveSelected = async indexOfMove => {
         // do user move
         const userLogTxext = applyMove(battle, indexOfMove)
         // setBattleLog(prevLog => [...prevLog, userLogTxext]);
@@ -170,6 +175,10 @@ export default function PokemonBattle() {
         setBattleLog(prevLog => [...prevLog, `${battle.cpuPokemon.name} will move next...`]);
 
         // do cpu move
+        setCpuIsThinking(true)
+        setBattleLog(prevLog => [...prevLog, `${battle.cpuPokemon.name} is thinking...`]);
+        await sleep(2000)
+        setCpuIsThinking(false)
         const cpuLogText = doCpuMove(battle)
         setBattleLog(prevLog => [...prevLog, cpuLogText]);
 
