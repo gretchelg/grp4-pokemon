@@ -37,9 +37,17 @@
   width: 70%;
   background-color: #dee5e5;
   padding: 1.2em;
+  margin: 5px;
   border-radius: 2em;
   border: solid 4px white;
+  cursor: pointer;
 }
+.gallery_img:hover {
+  scale: 1.1;
+  transition: all ease 0.3s;
+  border: solid 4px var(--blue);
+}
+
 h3 {
   font-size: 1.5rem;
   color: var(--blue);
