@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState } from "react";
-
+import fetchAPI from "./Utils";
 import { DataContext } from "../contexts/DataContext";
 import { useParams, NavLink } from "react-router-dom";
 import "./styles/SinglePokemon.css";
@@ -21,6 +21,12 @@ export default function SinglePokemon() {
     const updatedObject = { ...userData };
     updatedObject.coins = String(Number(updatedObject.coins) - 80);
     setUserData(updatedObject);
+    fetchAPI.addToScore({
+      // userID: "6476547bd65a2d249bb5e77c", // TODO change this to real userID
+      userID: userData._id,
+      scoreToAdd: 0,
+      coinsToAdd: -80,
+    });
     console.log(
       "Pokemone purschased, current Coins :",
       Number(userData.coins) - 80
