@@ -5,7 +5,7 @@ import './styles/PokemonBattle.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import BeatLoader from "react-spinners/BeatLoader";
 
-const CPU_THINKING_TIME = 3000
+const CPU_THINKING_TIME = 2000
 
 export default function PokemonBattle() {
     const [battle, setBattle] = useState({});
@@ -29,7 +29,6 @@ export default function PokemonBattle() {
           console.log("INFO about to update the state cpuPokemonData");
           return res;
         });
-        // return sleep(1000)
         return res;
       })
       .catch((error) => {
@@ -147,6 +146,12 @@ export default function PokemonBattle() {
   };
 
     const handleUserMoveSelected = async indexOfMove => {
+        setCpuIsThinking(true)
+        // setBattleLog(prevLog => [...prevLog, `${battle.cpuPokemon.name} is thinking...`]);
+        await sleep(CPU_THINKING_TIME)
+        setCpuIsThinking(false)
+
+
         // do user move
         const userLogTxext = applyMove(battle, indexOfMove)
         // setBattleLog(prevLog => [...prevLog, userLogTxext]);
@@ -234,6 +239,7 @@ export default function PokemonBattle() {
               <p>Attack : {userPokemonData.attack}</p>
               <p>Defense : {userPokemonData.defense}</p>
               <p>Speed : {userPokemonData.speed}</p>
+              <p>HP : {userPokemonData.hp}</p>
             </div>
           </div>
 
@@ -258,6 +264,7 @@ export default function PokemonBattle() {
               <p>Attack : {cpuPokemonData.attack}</p>
               <p>Defense : {cpuPokemonData.defense}</p>
               <p>Speed : {cpuPokemonData.speed}</p>
+              <p>HP : {cpuPokemonData.hp}</p>
             </div>
           </div>
         </div>
@@ -282,18 +289,16 @@ export default function PokemonBattle() {
 
         {/* SECTION: BATTLE LOG */}
         <div className="battle_log">
-          <h3 className="battle_log">Battle Log:</h3>
-          <div>
+          {/* <h3 className="battle_log">Battle Log:</h3> */}
             {battleLog?.map((log, index) => (
               <p key={index}>{log}</p>
             ))}
-          </div>
-
+            
           {cpuIsThinking ? (     
                 <BeatLoader
                 color="#f5a214"
                 loading={cpuIsThinking}
-                size={50}
+                size={40}
                 aria-label="Loading Spinner"
                 data-testid="loader"/>
             ) : <></>
@@ -302,15 +307,13 @@ export default function PokemonBattle() {
 
         <div className="players_wrapper">
           <div className="arena_player">
-            <div>
               <img
                 className="arena_image"
                 src={userPokemonData.front_default}
                 alt={userPokemonData.name}
               />
               <img className="elipse" src="../../img/ellipse.png" />
-            </div>
-
+            
             <div className="arena_info">
               <h5>{getUserPokemonForDisplay()}</h5>
               <p id="arena_pokemone_title">
@@ -319,6 +322,7 @@ export default function PokemonBattle() {
               <p>Attack : {userPokemonData.attack}</p>
               <p>Defense : {userPokemonData.defense}</p>
               <p>Speed : {userPokemonData.speed}</p>
+              <p>HP : {userPokemonData.hp}</p>
             </div>
           </div>
 
@@ -327,15 +331,13 @@ export default function PokemonBattle() {
           </div>
 
           <div className="arena_player">
-            <div>
               <img
                 className="arena_image"
                 src={cpuPokemonData.front_default}
                 alt={cpuPokemonData.name}
               />
               <img className="elipse" src="../../img/ellipse.png" />
-            </div>
-
+            
             <div className="arena_info">
               <h5>{getCpuPokemonForDisplay()}</h5>
               <p id="arena_pokemone_title">
@@ -344,6 +346,7 @@ export default function PokemonBattle() {
               <p>Attack : {cpuPokemonData.attack}</p>
               <p>Defense : {cpuPokemonData.defense}</p>
               <p>Speed : {cpuPokemonData.speed}</p>
+              <p>HP : {cpuPokemonData.hp}</p>
             </div>
           </div>
         </div>
@@ -373,7 +376,6 @@ export default function PokemonBattle() {
       <div className="area_header">
         <h2>Welcome to the Arena</h2>
       </div>
-      {/* SECTION: BATTLE LOG */}
 
       {battle.isFinished && battle.winner === USER ? (
         <div className="arena_result">
@@ -386,13 +388,11 @@ export default function PokemonBattle() {
               alt={userPokemonData.name}
             />
           </div>
-          <p>{userPokemonData.name} wins!</p>
+          <h4>{userPokemonData.name} wins!</h4>
         </div>
-      ) : (
+        ) : (
         <div className="arena_result">
           <h2>YOU LOST :'(</h2>
-
-          <h5>{cpuPokemonData.name} - CPU pokemon wins.</h5>
           <div>
             <img
               className="result_image"
@@ -400,10 +400,12 @@ export default function PokemonBattle() {
               alt={cpuPokemonData.name}
             />
           </div>
+          <h4>{cpuPokemonData.name} - CPU pokemon wins.</h4>
         </div>
       )}
+
       {/* SECTION: TRY AGAIN */}
-      <h3 className="battle_log">Play Again?</h3>
+      <h3 className="play-again">Play Again?</h3>
       <button className="start_battle" onClick={handleBattleRestart}>
         Restart
       </button>
