@@ -55,18 +55,6 @@ const fetchAllPokemons = async () => {
     });
 };
 
-// Fetch One User
-//     const fetchOneUser = async (_id) => {
-//       console.log("_id:", _id)
-//     // return fetch("http://localhost:4000/api/users/6476547bd65a2d249bb5e77c")
-//     return fetch(`http://localhost:4000/api/users/${_id}`)
-//     .then(res => res.json())
-//     .then(user => {
-//         console.log("One User:", user)
-//         return user
-//     })
-// }
-
 const fetchOneUser = async (_id) => {
   console.log("_id:", _id);
 

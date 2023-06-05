@@ -1,49 +1,25 @@
-import { useState, useEffect } from "react";
-import fetchAPI from "./Utils";
-import fetchAPI2 from "./Utils";
-import "./styles/PokemonBattle.css";
-import { useNavigate, useLocation } from "react-router-dom";
-import { Box, Typography, Container, Button } from "@mui/material";
+import { useState, useEffect } from 'react';
+import fetchAPI from './Utils';
+import fetchAPI2 from './Utils'
+import './styles/PokemonBattle.css';
+import { useNavigate, useLocation } from 'react-router-dom';
+import BeatLoader from "react-spinners/BeatLoader";
 
-// define sample pokemons
-// const cpu_data = {
-//     name: 'Charizard',
-//     speed: 100,
-//     attack: 70,
-//     defense: 40,
-//     hp: 100,
-//     moves: [
-//         { name: 'fire breath', power: 50 },
-//         { name: 'claw', power: 70 },
-//         { name: 'fireball', power: 90 },
-//     ],
-// }
-
-// const user_data = {
-//     name: 'Pikachu',
-//     speed: 90,
-//     attack: 50,
-//     defense: 30,
-//     hp: 200,
-//     moves: [
-//         { name: 'electricity', power: 40 },
-//         { name: 'bite', power: 60 },
-//         { name: 'lightning bolt', power: 80 },
-//     ],
-// }
+const CPU_THINKING_TIME = 2000
 
 export default function PokemonBattle() {
-  const [battle, setBattle] = useState({});
-  const [battleLog, setBattleLog] = useState([]);
-  const [battleOngoing, setBattleOngoing] = useState(false);
-  const [cpuPokemonData, setCpuPokemonData] = useState({});
-  const [userPokemonData, setUserPokemonData] = useState({});
-  const navigate = useNavigate();
-  const location = useLocation();
-  const player_info = location.state;
+    const [battle, setBattle] = useState({});
+    const [battleLog, setBattleLog] = useState([]);
+    const [battleOngoing, setBattleOngoing] = useState(false); 
+    const [cpuPokemonData, setCpuPokemonData] = useState({});
+    const [userPokemonData, setUserPokemonData] = useState({});
+    const [cpuIsThinking, setCpuIsThinking] = useState(false)
+    const navigate = useNavigate();
+    const location = useLocation();
+    const player_info = location.state;
 
-  console.log("my props:", player_info);
-  const myPokemon = player_info.selected_pokemon;
+    console.log("my props:", player_info)
+    const myPokemon = player_info ? player_info.selected_pokemon : "pikachu"; 
 
   const setRandomCpuPokemon = () => {
     console.log("SET RANDOM CPU POKEMON");
@@ -53,7 +29,6 @@ export default function PokemonBattle() {
           console.log("INFO about to update the state cpuPokemonData");
           return res;
         });
-        // return sleep(1000)
         return res;
       })
       .catch((error) => {
@@ -79,25 +54,18 @@ export default function PokemonBattle() {
   const user_data = userPokemonData;
   const cpu_data = cpuPokemonData;
 
-  const incrementScore = () => {
-    console.log("INFO incrementing score...");
-    fetchAPI
-      .addToScore({
-        // userID: "6476547bd65a2d249bb5e77c", // TODO change this to real userID
-        userID: player_info.user_id,
-        scoreToAdd: 10,
-        coinsToAdd: 3,
-      })
-      .then((_) =>
-        console.log("OK successfully incremented score", player_info.user_id)
-      )
-      .catch((e) => console.log("ERROR failed to increment score"));
-  };
+    const incrementScore = () => {
+        console.log("INFO incrementing score...")
+        fetchAPI.addToScore({
+            userID: player_info ? player_info.user_id : "647b19205f5822b228233f4d",
+            scoreToAdd: 10,
+            coinsToAdd: 3,
+        })
+            .then(_ => console.log("OK successfully incremented score", player_info.user_id))
+            .catch(e => console.log("ERROR failed to increment score"))
+    }
 
-  const doFirstTurn = () => {
-    // console.log("BEFORE reset battle, cpuPokemonData is", cpuPokemonData)
-    // resetBattle(battle, user_data, cpuPokemonData)
-    // console.log("INFO after reset battle", battle)
+    const doFirstTurn = async () => {
 
     // print who goes first
     if (battle.nextTurn == CPU) {
@@ -112,11 +80,15 @@ export default function PokemonBattle() {
       ]);
     }
 
-    // if cpu's turn, let cpu do a move
-    if (battle.nextTurn == CPU) {
-      const logText = doCpuMove(battle);
-      setBattleLog((prevLog) => [...prevLog, logText]);
-    }
+        // if cpu's turn, let cpu do a move
+        if (battle.nextTurn == CPU) { 
+            setCpuIsThinking(true)
+            setBattleLog(prevLog => [...prevLog, `${battle.cpuPokemon.name} is thinking...`]);
+            await sleep(CPU_THINKING_TIME)
+            setCpuIsThinking(false)
+            const logText = doCpuMove(battle)
+            setBattleLog(prevLog => [...prevLog, logText]);
+        }
 
     // if user HP > 0 then tell them they will move next
     if (!battle.isFinished) {
@@ -173,11 +145,17 @@ export default function PokemonBattle() {
     // doFirstTurn()
   };
 
-  const handleUserMoveSelected = (indexOfMove) => {
-    // do user move
-    const userLogTxext = applyMove(battle, indexOfMove);
-    // setBattleLog(prevLog => [...prevLog, userLogTxext]);
-    setBattleLog((prevLog) => [userLogTxext]);
+    const handleUserMoveSelected = async indexOfMove => {
+        setCpuIsThinking(true)
+        // setBattleLog(prevLog => [...prevLog, `${battle.cpuPokemon.name} is thinking...`]);
+        await sleep(CPU_THINKING_TIME)
+        setCpuIsThinking(false)
+
+
+        // do user move
+        const userLogTxext = applyMove(battle, indexOfMove)
+        // setBattleLog(prevLog => [...prevLog, userLogTxext]);
+        setBattleLog(prevLog => [userLogTxext]);
 
     // if user's move finished the battle, log the win and return already
     if (battle.isFinished) {
@@ -197,9 +175,13 @@ export default function PokemonBattle() {
       `${battle.cpuPokemon.name} will move next...`,
     ]);
 
-    // do cpu move
-    const cpuLogText = doCpuMove(battle);
-    setBattleLog((prevLog) => [...prevLog, cpuLogText]);
+        // do cpu move
+        setCpuIsThinking(true)
+        setBattleLog(prevLog => [...prevLog, `${battle.cpuPokemon.name} is thinking...`]);
+        await sleep(CPU_THINKING_TIME)
+        setCpuIsThinking(false)
+        const cpuLogText = doCpuMove(battle)
+        setBattleLog(prevLog => [...prevLog, cpuLogText]);
 
     // if user HP > 0 then tell them they will move next
     if (!battle.isFinished) {
@@ -257,6 +239,7 @@ export default function PokemonBattle() {
               <p>Attack : {userPokemonData.attack}</p>
               <p>Defense : {userPokemonData.defense}</p>
               <p>Speed : {userPokemonData.speed}</p>
+              <p>HP : {userPokemonData.hp}</p>
             </div>
           </div>
 
@@ -281,6 +264,7 @@ export default function PokemonBattle() {
               <p>Attack : {cpuPokemonData.attack}</p>
               <p>Defense : {cpuPokemonData.defense}</p>
               <p>Speed : {cpuPokemonData.speed}</p>
+              <p>HP : {cpuPokemonData.hp}</p>
             </div>
           </div>
         </div>
@@ -305,25 +289,31 @@ export default function PokemonBattle() {
 
         {/* SECTION: BATTLE LOG */}
         <div className="battle_log">
-          <h3 className="battle_log">Battle Log:</h3>
-          <div>
+          {/* <h3 className="battle_log">Battle Log:</h3> */}
             {battleLog?.map((log, index) => (
               <p key={index}>{log}</p>
             ))}
-          </div>
+            
+          {cpuIsThinking ? (     
+                <BeatLoader
+                color="#f5a214"
+                loading={cpuIsThinking}
+                size={40}
+                aria-label="Loading Spinner"
+                data-testid="loader"/>
+            ) : <></>
+            }  
         </div>
 
         <div className="players_wrapper">
           <div className="arena_player">
-            <div>
               <img
                 className="arena_image"
                 src={userPokemonData.front_default}
                 alt={userPokemonData.name}
               />
               <img className="elipse" src="../../img/ellipse.png" />
-            </div>
-
+            
             <div className="arena_info">
               <h5>{getUserPokemonForDisplay()}</h5>
               <p id="arena_pokemone_title">
@@ -332,6 +322,7 @@ export default function PokemonBattle() {
               <p>Attack : {userPokemonData.attack}</p>
               <p>Defense : {userPokemonData.defense}</p>
               <p>Speed : {userPokemonData.speed}</p>
+              <p>HP : {userPokemonData.hp}</p>
             </div>
           </div>
 
@@ -340,15 +331,13 @@ export default function PokemonBattle() {
           </div>
 
           <div className="arena_player">
-            <div>
               <img
                 className="arena_image"
                 src={cpuPokemonData.front_default}
                 alt={cpuPokemonData.name}
               />
               <img className="elipse" src="../../img/ellipse.png" />
-            </div>
-
+            
             <div className="arena_info">
               <h5>{getCpuPokemonForDisplay()}</h5>
               <p id="arena_pokemone_title">
@@ -357,6 +346,7 @@ export default function PokemonBattle() {
               <p>Attack : {cpuPokemonData.attack}</p>
               <p>Defense : {cpuPokemonData.defense}</p>
               <p>Speed : {cpuPokemonData.speed}</p>
+              <p>HP : {cpuPokemonData.hp}</p>
             </div>
           </div>
         </div>
@@ -386,10 +376,6 @@ export default function PokemonBattle() {
       <div className="area_header">
         <h2>Welcome to the Arena</h2>
       </div>
-      {/* SECTION: BATTLE LOG */}
-
-      {/* SECTION: BATTLE RESULT */}
-      {/* <h3>Result:</h3> */}
 
       {battle.isFinished && battle.winner === USER ? (
         <div className="arena_result">
@@ -402,13 +388,11 @@ export default function PokemonBattle() {
               alt={userPokemonData.name}
             />
           </div>
-          <p>{userPokemonData.name} wins!</p>
+          <h4>{userPokemonData.name} wins!</h4>
         </div>
-      ) : (
+        ) : (
         <div className="arena_result">
           <h2>YOU LOST :'(</h2>
-
-          <h5>{cpuPokemonData.name} - CPU pokemon wins.</h5>
           <div>
             <img
               className="result_image"
@@ -416,10 +400,12 @@ export default function PokemonBattle() {
               alt={cpuPokemonData.name}
             />
           </div>
+          <h4>{cpuPokemonData.name} - CPU pokemon wins.</h4>
         </div>
       )}
+
       {/* SECTION: TRY AGAIN */}
-      <h3 className="battle_log">Play Again?</h3>
+      <h3 className="play-again">Play Again?</h3>
       <button className="start_battle" onClick={handleBattleRestart}>
         Restart
       </button>

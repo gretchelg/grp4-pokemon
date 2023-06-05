@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import fetchAPI from './Utils';
 import { useState, useEffect } from 'react';
 import "../../src/App.css";
@@ -8,6 +9,7 @@ export default function Leaderboard() {
 
     const date = new Date();
     const formattedDate = `${date.toLocaleString('en-US', { month: 'long' })} ${date.getDate()}`;
+    const navigate = useNavigate();
 
     useEffect(() => {
       fetchAPI.fetchAllUsers()
@@ -19,10 +21,14 @@ export default function Leaderboard() {
       });
   }, []);
 
+  const handleBackButton = () => {
+    navigate('/dashboard'); 
+  };
+
   return (
     <div className="leaderboard-container">
       <div className="header">
-        <button className="back-button">Back</button>
+        <button className="back-button" onClick={handleBackButton}>Back</button>
         <h1 className="title">Leaderboard</h1>
         {users.length > 0 && <p className="score">Score: {users[0].score}</p>}
       </div>
