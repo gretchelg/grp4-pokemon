@@ -85,6 +85,7 @@ export default function Gallery() {
       </div> */}
       <Stack spacing={2}>
         <Pagination
+          color="primary"
           onChange={handlePageChange}
           className="gallery_pagination "
           count={10}
