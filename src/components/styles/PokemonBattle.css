@@ -8,6 +8,7 @@
   background-image: url("../../../public/img/arena_background.png");
   background-size: cover;
   background-repeat: no-repeat;
+  width: 100%;
   height: 100vh;
 }
 
@@ -52,7 +53,8 @@
   color: white;
 }
 .arena_info > p {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  margin-bottom: 0;
 }
 .players_wrapper {
   display: flex;
@@ -90,15 +92,24 @@
 }
 .battle_log {
   color: white;
+  font-size: 25px;
+  margin: 5px;
+  padding: 0;
+}
+
+.play-again {
+  color: white;
+  font-size: 25px;
   margin-top: 50px;
 }
+
 .choose_attack {
   color: white;
 }
 
 .arena_result {
   color: white;
-  margin-top: 50px;
+  margin-top: 40px;
 }
 .result_image {
   width: 300px;
