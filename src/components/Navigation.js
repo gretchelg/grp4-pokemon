@@ -67,7 +67,7 @@ export default function Navigation(props) {
 return (
     <Box sx={{ display: 'flex'}}>
     <CssBaseline /> 
-    {/* <AppBar component="nav" position="relative" style={{ backgroundColor: 'rgba(197, 217, 219,0.9)'}}>
+    <AppBar component="nav" position="relative" style={{ backgroundColor: 'rgba(197, 217, 219,0.9)'}}>
         <Toolbar>
         <IconButton
             color="inherit"
@@ -77,9 +77,9 @@ return (
             sx={{ mr: 2, display: { sm: 'none' } }}
         >
             <MenuIcon />
-        </IconButton> */}
-        {/* <NavLink to="/" > */}
-            {/* <Typography
+        </IconButton>
+        <NavLink to="/" >
+            <Typography
                 variant="h6"
                 component="div"
                 sx={{ 
@@ -89,10 +89,10 @@ return (
                 }}
             >
                 Pokemon
-            </Typography> */}
-        {/* </NavLink> */}
+            </Typography>
+        </NavLink>
 
-        {/* <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+        <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
 
             <NavLink to={`./${item}`}>
@@ -103,7 +103,7 @@ return (
             ))}
         </Box>
         </Toolbar>        
-    </AppBar> */}
+    </AppBar>
 
     <Box component="nav">
         <Drawer
