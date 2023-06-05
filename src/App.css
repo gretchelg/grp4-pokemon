@@ -11,6 +11,7 @@ General
   --blue: #2a4380;
   --bg-transparent: rgb(255, 255, 255, 50%);
   --bg-blue: #c5d9db;
+  --yellow: #ffcc32;
 }
 * {
   font-family: "Keania One", cursive;

@@ -4,6 +4,9 @@ import { DataContext } from "../contexts/DataContext";
 import { useState } from "react";
 import { func } from "prop-types";
 import { NavLink } from "react-router-dom";
+// import Pagination from "./Pagination";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 export default function Gallery() {
   const { pokemonData, setPokemonData, userData } = useContext(DataContext);
@@ -17,12 +20,23 @@ export default function Gallery() {
       .then((res) => res.json())
       .then((data) => setPokemonData(data.data));
     console.log(page);
-  }, [search]);
+  }, [search, page]);
 
   console.log(typeof pokemonData, pokemonData);
   const handleSearch = function (e) {
     e.preventDefault();
   };
+
+  const handlePageChange = function (event, value) {
+    setPage(value);
+  };
+
+  // const nextPage = function () {
+  //   setPage((prev) => prev + 1);
+  // };
+  // const prevPage = function () {
+  //   setPage((prev) => prev - 1);
+  // };
 
   return (
     <div className="gallery">
@@ -61,6 +75,21 @@ export default function Gallery() {
           </div>
         ))}
       </div>
+      {/* <div className="gallery_pagination">
+        <button className="pagination_buttons" onClick={nextPage}>
+          Previous
+        </button>
+        <button className="pagination_buttons" onClick={prevPage}>
+          Next
+        </button>
+      </div> */}
+      <Stack spacing={2}>
+        <Pagination
+          onChange={handlePageChange}
+          className="gallery_pagination "
+          count={10}
+        />
+      </Stack>
     </div>
   );
 }

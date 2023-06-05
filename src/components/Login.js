@@ -12,8 +12,6 @@ export default function Login() {
   const { setisLoggedIn, isLoggedIn, userData, setUserData } =
     useContext(DataContext);
 
-  console.log(userData);
-
   const submitHandler = (e) => {
     console.log("form submitted", user_name, password);
     e.preventDefault();
@@ -62,7 +60,10 @@ export default function Login() {
           required
         />
         <NavLink className="login_signup" to="/registration">
-          <h2>Not registered yet ? SIGN UP here now</h2>
+          <h2>
+            Not registered yet ? <span className="reg_here">SIGN UP</span> here
+            now
+          </h2>
         </NavLink>
         <button className="login_button">GO!</button>
         <div className="reg_msg">{loginMsg}</div>
