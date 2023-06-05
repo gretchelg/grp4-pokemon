@@ -64,3 +64,12 @@
   background-color: var(--blue);
   color: white;
 }
+
+.buySuccess {
+  padding: 2em;
+  color: green;
+}
+.buyFailed {
+  padding: 2em;
+  color: red;
+}

@@ -6,31 +6,60 @@ import "./styles/SinglePokemon.css";
 export default function SinglePokemon() {
   const { onePokemon, setOnePokemon, userData, setUserData } =
     useContext(DataContext);
+  const [buyMsg, setBuyMsg] = useState("");
+  const [newCollection, setNewCollection] = useState([]);
 
   const { id } = useParams();
   useEffect(() => {
+    // onePokemon && console.log("onepoke", onePokemon);
     fetch(`http://localhost:4000/api/pokemons/${id}`)
       .then((res) => res.json())
       .then((data) => setOnePokemon(data.data));
-    console.log("one Pokemon :", onePokemon);
-    console.log("userData:", userData);
   }, []);
+  onePokemon && console.log("one Pokemon :", onePokemon);
+  console.log("userData:", userData);
 
   const buyNow = function (e) {
     e.preventDefault();
-    const updatedObject = { ...userData };
-    updatedObject.coins = String(Number(updatedObject.coins) - 80);
-    setUserData(updatedObject);
-    fetchAPI.addToScore({
-      // userID: "6476547bd65a2d249bb5e77c", // TODO change this to real userID
-      userID: userData._id,
-      scoreToAdd: 0,
-      coinsToAdd: -80,
-    });
-    console.log(
-      "Pokemone purschased, current Coins :",
-      Number(userData.coins) - 80
-    );
+    if (userData.coins > 80) {
+      const found = userData.collections.find(
+        (pokemone) => pokemone === onePokemon?.name
+      );
+      console.log("found", found);
+
+      if (found) {
+        setBuyMsg("you already have this pokemon");
+      } else {
+        // updating coins
+        const updatedObject = { ...userData };
+        updatedObject.coins = String(Number(updatedObject.coins) - 80);
+
+        //updating collection
+        // let newCollection = [];
+        const { collections } = userData;
+        console.log(" destructured collections:", collections);
+        const updatedCollection = [...collections, onePokemon.name];
+        setNewCollection(updatedCollection);
+        console.log("new collection:", newCollection);
+        updatedObject.collections = newCollection;
+        setUserData(updatedObject);
+
+        //updating the user information
+        fetchAPI.addToScore({
+          userID: userData._id,
+          scoreToAdd: 0,
+          coinsToAdd: -80,
+          updatedCollection: newCollection,
+        });
+
+        setBuyMsg(
+          `Pokemone purschased, current Coins :
+          ${Number(userData?.coins) - 80}`
+        );
+      }
+    } else {
+      return setBuyMsg("you dont have enough coins !");
+    }
   };
 
   return (
@@ -39,8 +68,8 @@ export default function SinglePokemon() {
         <NavLink to="/dashboard">
           <h3>Home</h3>
         </NavLink>
-        <h2>Collect a Pokémon</h2>
-        <h3>Coins: {userData.coins}</h3>
+        <h2>{onePokemon?.name}</h2>
+        <h3>Coins: {userData?.coins}</h3>
       </div>
 
       <div className="singlePokemon_container">
@@ -91,6 +120,9 @@ export default function SinglePokemon() {
         <button onClick={buyNow} className="buyNow">
           Buy Now
         </button>
+        <p className={userData.coins > 80 ? "buySuccess" : "buyFailed"}>
+          {buyMsg}
+        </p>
       </div>
     </div>
   );
