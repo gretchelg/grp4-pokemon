@@ -1,9 +1,15 @@
 // Put Score endpoint to increment user score
-const putScore = async ({ userID, scoreToAdd, coinsToAdd }) => {
+const putScore = async ({
+  userID,
+  scoreToAdd,
+  coinsToAdd,
+  updatedCollection,
+}) => {
   const payload = {
     id: userID,
     score: scoreToAdd,
     coins: coinsToAdd,
+    collections: updatedCollection,
   };
 
   console.log("INFO sending PUT score to backend:", payload);
