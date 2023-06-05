@@ -53,12 +53,11 @@ export default function UserProfile() {
   return (
     <div className="dashboard-container">
       <div className="header">
-        <div className="user-info">
-          <p className="score">Score: {user.score}</p>
-          <h1 className="username">{user.user_name}</h1>
-          <p className="coins">Coins: {user.coins}</p>
-        </div>
+        <h3 className="dashboard_score">Score: {user.score}</h3>
+        <h1 className="username">{user.user_name}</h1>
+        <h3 className="coins">Coins: {user.coins}</h3>
       </div>
+
       <div className="action-buttons">
         <button className="action-button" onClick={handleGalleryClick}>
           Collect a Pokemon
@@ -70,20 +69,23 @@ export default function UserProfile() {
           Leaderboard
         </button>
       </div>
-      <h2>Collection</h2>
+
       <div className="collection">
-        {user.collections &&
-          user.collections.map((pokemon, index) => (
-            <div
-              key={index}
-              className={`pokemon ${
-                selectedPokemon === pokemon ? "selected" : ""
-              }`}
-              onClick={() => handlePokemonClick(pokemon)}
-            >
-              {pokemon}
-            </div>
-          ))}
+        <h2>Collection</h2>
+        <div className="collection_footer">
+          {user.collections &&
+            user.collections.map((pokemon, index) => (
+              <div
+                key={index}
+                className={`pokemon ${
+                  selectedPokemon === pokemon ? "selected" : ""
+                }`}
+                onClick={() => handlePokemonClick(pokemon)}
+              >
+                <span>{pokemon}</span>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );

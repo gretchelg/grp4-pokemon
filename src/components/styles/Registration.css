@@ -51,3 +51,12 @@ button:hover {
   transition: all ease 0.3s;
   padding: 1em;
 }
+
+.already_account {
+  color: var(--blue);
+}
+.reg_here:hover {
+  color: var(--yellow);
+  cursor: pointer;
+  transition: all ease 0.3s;
+}

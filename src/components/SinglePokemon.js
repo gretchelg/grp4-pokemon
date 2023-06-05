@@ -16,32 +16,35 @@ export default function SinglePokemon() {
       .then((res) => res.json())
       .then((data) => setOnePokemon(data.data));
   }, []);
-  onePokemon && console.log("one Pokemon :", onePokemon);
-  console.log("userData:", userData);
 
   const buyNow = function (e) {
     e.preventDefault();
-    if (userData.coins > 80) {
+    if (userData.coins >= 80) {
       const found = userData.collections.find(
         (pokemone) => pokemone === onePokemon?.name
       );
-      console.log("found", found);
 
       if (found) {
         setBuyMsg("you already have this pokemon");
+        console.log(found);
       } else {
+        // setNewCollection((prev) => [...prev, onePokemon.name]);
         // updating coins
         const updatedObject = { ...userData };
         updatedObject.coins = String(Number(updatedObject.coins) - 80);
 
+        updatedObject.collections = [
+          ...updatedObject.collections,
+          onePokemon.name,
+        ];
+        console.log("updateObject.collections:", updatedObject.collections);
+
         //updating collection
         // let newCollection = [];
-        const { collections } = userData;
-        console.log(" destructured collections:", collections);
-        const updatedCollection = [...collections, onePokemon.name];
-        setNewCollection(updatedCollection);
-        console.log("new collection:", newCollection);
-        updatedObject.collections = newCollection;
+        // const { collections } = userData;
+        // console.log(" destructured collections:", collections);
+        // const updatedCollection = [...collections, onePokemon.name];
+
         setUserData(updatedObject);
 
         //updating the user information
@@ -49,7 +52,7 @@ export default function SinglePokemon() {
           userID: userData._id,
           scoreToAdd: 0,
           coinsToAdd: -80,
-          updatedCollection: newCollection,
+          updatedCollection: updatedObject.collections,
         });
 
         setBuyMsg(

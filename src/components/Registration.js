@@ -3,12 +3,13 @@ import "../../src/App.css";
 import { useState, useContext } from "react";
 
 import { DataContext } from "../contexts/DataContext.jsx";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Registration() {
   const { setisRegistered, isRegistered } = useContext(DataContext);
 
   const [regMsg, setRegMsg] = useState("");
-
+  const navigate = useNavigate();
   // ===================================
   // create Users Object and POST request
   // ===================================
@@ -73,6 +74,10 @@ export default function Registration() {
 
         <button type="submit">Register</button>
         <div className="reg_msg">{regMsg}</div>
+        <NavLink to="/login" className="already_account">
+          already have an account ? <span className="reg_here">LOGIN</span> here{" "}
+          now
+        </NavLink>
       </form>
     </div>
   );

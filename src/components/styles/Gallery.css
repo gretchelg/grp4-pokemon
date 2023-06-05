@@ -68,3 +68,21 @@ h3 {
   padding: 2px 10px;
   border-radius: 1rem;
 }
+.gallery_pagination {
+  margin-bottom: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}
+
+.pagination_buttons {
+  padding: 10px;
+  border: 2px white solid;
+
+  border-radius: 1rem;
+  height: 50px;
+  color: var(--blue);
+  width: 80px;
+  height: 10;
+}
