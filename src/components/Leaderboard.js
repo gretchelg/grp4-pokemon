@@ -31,7 +31,7 @@ export default function Leaderboard() {
     <div className="leaderboard-container">
       <div className="header">
         <NavLink to="/dashboard">
-          <h3>Home</h3>
+          <h3>Back</h3>
         </NavLink>
         <h2>Collect a Pokémon</h2>
         <h3>Coins: {userData.coins}</h3>
