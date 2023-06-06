@@ -68,8 +68,8 @@ export default function SinglePokemon() {
   return (
     <div className="singlePokemon">
       <div className="header">
-        <NavLink to="/dashboard">
-          <h3>Home</h3>
+        <NavLink to="/gallery">
+          <h3>Back</h3>
         </NavLink>
         <h2>{onePokemon?.name}</h2>
         <h3>Coins: {userData?.coins}</h3>
