@@ -101,3 +101,8 @@
   color: var(--blue);
   font-size: 2rem;
 }
+
+.no_pokemons {
+  color: var(--blue);
+  font-size: 1rem;
+}
