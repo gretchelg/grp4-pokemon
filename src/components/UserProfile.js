@@ -73,7 +73,7 @@ export default function UserProfile() {
       <div className="collection">
         <h2>Collection</h2>
         <div className="collection_footer">
-          {user.collections &&
+          {user.collections?.length > 0 ? (
             user.collections.map((pokemon, index) => (
               <div
                 key={index}
@@ -84,7 +84,10 @@ export default function UserProfile() {
               >
                 <span>{pokemon}</span>
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="no_pokemons">you dont have any pokemons yet</div>
+          )}
         </div>
       </div>
     </div>
