@@ -65,7 +65,9 @@ export default function Login() {
             now
           </h2>
         </NavLink>
-        <button className="login_button">GO!</button>
+        <button type="submit" className="login_button">
+          GO!
+        </button>
         <div className="reg_msg">{loginMsg}</div>
       </form>
     </div>
