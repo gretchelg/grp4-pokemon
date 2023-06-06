@@ -33,7 +33,7 @@ export default function Leaderboard() {
         <NavLink to="/dashboard">
           <h3>Back</h3>
         </NavLink>
-        <h2>Collect a Pokémon</h2>
+        <h2>Leaderboard</h2>
         <h3>Coins: {userData.coins}</h3>
       </div>
       {users.length > 0 && (

@@ -18,7 +18,7 @@ function App() {
   const { isRegistered, isLoggedIn } = useContext(DataContext);
   return (
     <div className="App">
-      <Navigation />
+      {/* <Navigation /> */}
 
       {/* SETUP ROUTES AND PATHS    */}
       <Routes>
