@@ -1,6 +1,6 @@
 .singlePokemon {
   background-color: var(--bg-blue);
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 .singlePokemon_container {
