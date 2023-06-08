@@ -2,13 +2,11 @@ import "./App.css";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
 import Gallery from "./components/Gallery";
-import Profile from "./components/Profile";
 import UserProfile from "./components/UserProfile";
 import { NavLink, Route, Routes, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { DataContext } from "./contexts/DataContext";
 import Navigation from "./components/Navigation";
-import Landingpage from "./components/Landingpage";
 import Errorpage from "./components/Errorpage";
 import Leaderboard from "./components/Leaderboard";
 import PokemonBattle from "./components/PokemonBattle";
@@ -22,19 +20,17 @@ function App() {
 
       {/* SETUP ROUTES AND PATHS    */}
       <Routes>
-        <Route path="/" element={<Login />} />
-        {/* <Route path="/home" element={<Landingpage />} /> */}
         <Route path="/arena" element={<PokemonBattle />} />
         <Route
-          path="/login"
+          path="/"
           element={
-            !isLoggedIn ? <Login /> : <Navigate replace to="/dashboard" />
+            !isLoggedIn ? <Login /> : <UserProfile />
           }
         />
         <Route
           path="/registration"
           element={
-            !isRegistered ? <Registration /> : <Navigate replace to="/login" />
+            !isRegistered ? <Registration /> : <Login />
           }
         />
         <Route path="/gallery" element={<Gallery />} />

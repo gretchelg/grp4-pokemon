@@ -12,8 +12,7 @@ const putScore = async ({
     collections: updatedCollection,
   };
 
-  console.log("INFO sending PUT score to backend:", payload);
-  return fetch(`http://localhost:4000/api/users/arena/${userID}`, {
+  return fetch(`https://api-pokemon-n19c.onrender.com/api/users/arena/${userID}`, {
     method: "PUT",
     headers: {
       Accept: "application/json",
@@ -35,37 +34,30 @@ const putScore = async ({
 
 // Fetch one Pokemon
 const fetchOnePokemon = async (id) => {
-  console.log("pokemon_id:", id);
-  // return fetch("http://localhost:4000/api/pokemons/bulbasaur")
-  return fetch(`http://localhost:4000/api/pokemons/${id}`)
+  return fetch(`https://api-pokemon-n19c.onrender.com/api/pokemons/${id}`)
     .then((res) => res.json())
     .then((pokemon) => {
-      console.log("One Pokemon:", pokemon);
       return pokemon;
     });
 };
 
 // Fetch All Pokemon
 const fetchAllPokemons = async () => {
-  return fetch("http://localhost:4000/api/pokemons")
+  return fetch("https://api-pokemon-n19c.onrender.com/api/pokemons")
     .then((res) => res.json())
     .then((pokemons) => {
-      console.log("All Pokemon", pokemons);
       return pokemons;
     });
 };
 
 const fetchOneUser = async (_id) => {
-  console.log("_id:", _id);
-
   try {
-    const response = await fetch(`http://localhost:4000/api/users/${_id}`);
+    const response = await fetch(`https://api-pokemon-n19c.onrender.com/api/users/${_id}`);
     if (!response.ok) {
       throw new Error("Failed to fetch user");
     }
 
     const user = await response.json();
-    console.log("One User:", user);
     return user;
   } catch (error) {
     console.error("Error fetching user:", error);
@@ -77,10 +69,9 @@ const fetchOneUser = async (_id) => {
 // Fetch All User
 
 const fetchAllUsers = async () => {
-  return fetch("http://localhost:4000/api/users/leaderboard")
+  return fetch("https://api-pokemon-n19c.onrender.com/api/users/leaderboard")
     .then((res) => res.json())
     .then((users) => {
-      console.log("All Pokemon", users);
       return users;
     });
 };
@@ -153,8 +144,6 @@ const pokemonAPI = async (i) => {
       types,
       weight,
     };
-
-    console.log("CPUobject:", pokemonObj);
     return pokemonObj;
   } catch (error) {
     console.error("Error fetching from PokemonAPI:", error);
@@ -164,7 +153,7 @@ const pokemonAPI = async (i) => {
 // Fetch from Pokemon DB
 const fetchUserPokemon = async (myPokemon) => {
   try {
-    const res = await fetch(`http://localhost:4000/api/pokemons/${myPokemon}`);
+    const res = await fetch(`https://api-pokemon-n19c.onrender.com/api/pokemons/${myPokemon}`);
     const data = await res.json();
 
     const {
@@ -220,8 +209,6 @@ const fetchUserPokemon = async (myPokemon) => {
       types,
       weight,
     };
-
-    console.log("UserObject:", pokemonObj);
     return pokemonObj;
   } catch (error) {
     console.error("Error fetching from pokemon DB:", error);

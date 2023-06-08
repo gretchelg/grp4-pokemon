@@ -7,22 +7,19 @@ import { NavLink } from "react-router-dom";
 // import Pagination from "./Pagination";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import Navigation from "./Navigation"
 
 export default function Gallery() {
   const { pokemonData, setPokemonData, userData } = useContext(DataContext);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
-  console.log(search);
-  console.log(userData);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/api/pokemons?page=${page}&search=${search}`)
+    fetch(`https://api-pokemon-n19c.onrender.com/api/pokemons?page=${page}&search=${search}`)
       .then((res) => res.json())
       .then((data) => setPokemonData(data.data));
-    console.log(page);
   }, [search, page]);
 
-  console.log(typeof pokemonData, pokemonData);
   const handleSearch = function (e) {
     e.preventDefault();
   };
@@ -40,6 +37,7 @@ export default function Gallery() {
 
   return (
     <div className="gallery">
+      {/* <Navigation /> */}
       <div className="header">
         <NavLink to="/dashboard">
           <h3>Back</h3>

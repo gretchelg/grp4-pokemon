@@ -12,7 +12,7 @@ export default function SinglePokemon() {
   const { id } = useParams();
   useEffect(() => {
     // onePokemon && console.log("onepoke", onePokemon);
-    fetch(`http://localhost:4000/api/pokemons/${id}`)
+    fetch(`https://api-pokemon-n19c.onrender.com/api/pokemons/${id}`)
       .then((res) => res.json())
       .then((data) => setOnePokemon(data.data));
   }, []);
@@ -26,7 +26,6 @@ export default function SinglePokemon() {
 
       if (found) {
         setBuyMsg("you already have this pokemon");
-        console.log(found);
       } else {
         // setNewCollection((prev) => [...prev, onePokemon.name]);
         // updating coins
@@ -37,13 +36,6 @@ export default function SinglePokemon() {
           ...updatedObject.collections,
           onePokemon.name,
         ];
-        console.log("updateObject.collections:", updatedObject.collections);
-
-        //updating collection
-        // let newCollection = [];
-        // const { collections } = userData;
-        // console.log(" destructured collections:", collections);
-        // const updatedCollection = [...collections, onePokemon.name];
 
         setUserData(updatedObject);
 

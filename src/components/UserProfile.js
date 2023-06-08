@@ -15,15 +15,11 @@ export default function UserProfile() {
   const player_id = _id ? _id : "647b19205f5822b228233f4d";
 
   useEffect(() => {
-    console.log("This is my datacontext id:", player_id);
     fetchAPI.fetchOneUser(player_id).then((res) => {
-      console.log("I'm in the Dashboard:", res.data);
       setUser(res.data);
       setUserData(res.data);
     });
   }, []);
-
-  // console.log("my info:", user);
 
   if (!user) return null;
 
@@ -36,6 +32,11 @@ export default function UserProfile() {
   };
 
   const handlePokemonBattleClick = () => {
+    if (selectedPokemon === null) {
+    alert("Select first a Pokemon in your Collection and Start the Battle.")
+    return
+    }
+
     const player_info = {
       user_id: user._id,
       user_name: user.user_name,
@@ -86,7 +87,7 @@ export default function UserProfile() {
               </div>
             ))
           ) : (
-            <div className="no_pokemons">you dont have any pokemons yet</div>
+            <div className="no_pokemons">You have no pokemons in your collection. Go collect Pokemon first.</div>
           )}
         </div>
       </div>
