@@ -73,7 +73,7 @@ export default function Registration() {
 
         <button type="submit">Register</button>
         <div className="reg_msg">{regMsg}</div>
-        <NavLink to="/login" className="already_account">
+        <NavLink to="/" className="already_account">
           already have an account ? <span className="reg_here">LOGIN</span> here{" "}
           now
         </NavLink>
