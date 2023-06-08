@@ -8,8 +8,8 @@
   background-image: url("../../../public/img/arena_background.png");
   background-size: cover;
   background-repeat: no-repeat;
-  /* width: 100%;
-  height: 100vh; */
+  width: 100%;
+  height: 100vh;
 }
 
 .area_header {

@@ -87,7 +87,7 @@ body {
   background-image: url(./img/background_01.jpg);
   background-size: cover;
   background-repeat: no-repeat;
-  /* height: 100vh; */
+  height: 100vh;
   font-size: 24px;
 }
 .login_form {
