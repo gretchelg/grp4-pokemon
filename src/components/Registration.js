@@ -25,9 +25,8 @@ export default function Registration() {
 
   const submitHandler = function (event) {
     event.preventDefault();
-    console.log(formData);
 
-    fetch("http://localhost:4000/api/users", {
+    fetch("https://api-pokemon-n19c.onrender.com/api/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),

@@ -13,9 +13,8 @@ export default function Login() {
     useContext(DataContext);
 
   const submitHandler = (e) => {
-    console.log("form submitted", user_name, password);
     e.preventDefault();
-    fetch("http://localhost:4000/api/users/login", {
+    fetch("https://api-pokemon-n19c.onrender.com/api/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

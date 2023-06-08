@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 const drawerWidth = 240;
-const navItems = ['home', 'login', 'gallery', 'leaderboard', 'dashboard'];
+const navItems = ['login', 'dashboard', 'gallery', 'leaderboard',];
 
 export default function Navigation(props) {
     const { window } = props;
@@ -65,9 +65,9 @@ export default function Navigation(props) {
     };
 
 return (
-    <Box sx={{ display: 'flex'}}>
+    <Box sx={{ display: 'flex', backgroundColor: '#C5D9DB' }}>
     <CssBaseline /> 
-    <AppBar component="nav" position="relative" style={{ backgroundColor: 'rgba(197, 217, 219,0.9)'}}>
+    <AppBar component="nav" position="static" style={{ backgroundColor: '#C5D9DB'}}>
         <Toolbar>
         <IconButton
             color="inherit"
@@ -78,7 +78,7 @@ return (
         >
             <MenuIcon />
         </IconButton>
-        <NavLink to="/" >
+        {/* <NavLink to="/" > */}
             <Typography
                 variant="h6"
                 component="div"
@@ -90,7 +90,7 @@ return (
             >
                 Pokemon
             </Typography>
-        </NavLink>
+        {/* </NavLink> */}
 
         <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (

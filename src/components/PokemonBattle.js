@@ -17,16 +17,12 @@ export default function PokemonBattle() {
     const navigate = useNavigate();
     const location = useLocation();
     const player_info = location.state;
-
-    console.log("my props:", player_info)
     const myPokemon = player_info ? player_info.selected_pokemon : "pikachu"; 
 
   const setRandomCpuPokemon = () => {
-    console.log("SET RANDOM CPU POKEMON");
     return pickRandomPokemon()
       .then((res) => {
         setCpuPokemonData((oldData) => {
-          console.log("INFO about to update the state cpuPokemonData");
           return res;
         });
         return res;
@@ -37,7 +33,6 @@ export default function PokemonBattle() {
   };
 
   useEffect(() => {
-    console.log("useEffect initializing");
     getUserPokemonData(myPokemon)
       .then((res) => {
         setUserPokemonData(res);
@@ -49,17 +44,14 @@ export default function PokemonBattle() {
     setRandomCpuPokemon();
   }, [battle]);
 
-  console.log("AFTER USE EFFECT");
-
   const user_data = userPokemonData;
   const cpu_data = cpuPokemonData;
 
     const incrementScore = () => {
-        console.log("INFO incrementing score...")
         fetchAPI.addToScore({
             userID: player_info ? player_info.user_id : "647b19205f5822b228233f4d",
             scoreToAdd: 10,
-            coinsToAdd: 3,
+            coinsToAdd: 50,
         })
             .then(_ => console.log("OK successfully incremented score", player_info.user_id))
             .catch(e => console.log("ERROR failed to increment score"))
@@ -113,10 +105,7 @@ export default function PokemonBattle() {
   const handleBattleStart = () => {
     // battle has started
     setBattleOngoing(true);
-
-    console.log("BEFORE handleBattleStart, cpuPokemonData is", cpuPokemonData);
     resetBattle(battle, user_data, cpuPokemonData);
-    console.log("INFO after handleBattleStart", battle);
 
     doFirstTurn();
   };
@@ -422,7 +411,6 @@ export default function PokemonBattle() {
 // pickRandom pokemon and returns its index
 async function pickRandomPokemon() {
   const randomIndex = Math.floor(Math.random() * 499);
-  console.log("index:", randomIndex);
 
   return fetchAPI.pokemonAPI(randomIndex);
 }
@@ -431,7 +419,6 @@ async function getUserPokemonData(myPokemon) {
   // const myPokemon = "pikachu"
   // const myPokemon = ["pikachu", "ivysaur", "paras", "meowth", "kadabra"]
   // const index = Math.floor(Math.random() * myPokemon.length);
-  console.log("myPokemon:", myPokemon);
   return fetchAPI2.fetchUserPokemon(myPokemon);
   // return fetchAPI2.fetchUserPokemon(myPokemon[index]);
 }

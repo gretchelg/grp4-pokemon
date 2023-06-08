@@ -16,7 +16,6 @@ export default function Leaderboard() {
 
   useEffect(() => {
     fetchAPI.fetchAllUsers().then((res) => {
-      console.log("I'm in the Leaderboard:", res.data);
       // Sort users by score
       const sortedUsers = res.data.sort((a, b) => b.score - a.score);
       setUsers(sortedUsers);
